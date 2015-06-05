@@ -1,9 +1,11 @@
 package app.mapquest.com.mapquest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.parse.Parse;
 
@@ -42,5 +44,14 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /** Called when the user clicks the Send button */
+    public void goToGame(View view) {
+        Intent intent = new Intent(this, MapDisplay.class);
+        int gameID = 0x415;
+        intent.putExtra("gameID", gameID);
+        startActivity(intent);
+
     }
 }
