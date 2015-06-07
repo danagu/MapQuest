@@ -31,13 +31,19 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        initializeParse();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    private void initializeParse() {
         // Enable Local Datastore.
-        // TODO: EXTRACT SUBCLASS
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this, "GM7cHc32GFCgAwthzFbpc3X1iSZBbXfYzQrLMgbP", "UK7QTonPXE3j6IBt5DIOd4E10KWBAc64l3XYTz9l");
 
-
+        // Can save in local datastore: pinInBackground()
         ParseObject.registerSubclass(Answer.class);
         ParseObject.registerSubclass(EndPoint.class);
         ParseObject.registerSubclass(Game.class);
@@ -45,13 +51,6 @@ public class MainActivity extends Activity {
         ParseObject.registerSubclass(Point.class);
         ParseObject.registerSubclass(Quiz.class);
         ParseObject.registerSubclass(Score.class);
-//        ParseObject.registerSubclass(ParseGeoPoint.class);
-
-        // Can save in local datastore: pinInBackground()
-
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
     }
 
 
