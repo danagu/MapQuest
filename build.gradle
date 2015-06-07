@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 //apply plugin: 'com.android.application'
-//apply plugin: 'android'
+apply plugin: 'java'
 
 buildscript {
     repositories {

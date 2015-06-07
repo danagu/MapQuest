@@ -16,7 +16,7 @@ public class Creating {
     public static void createNewGame(String gameName, List<LocationInfo> locationsInfo, EndPoint endPoint) {
         ParseObject gameObj = new ParseObject("Game");
         gameObj.put(Game.GAME_NAME_KEY, gameName); // TODO: handle same keys inserted.
-        gameObj.put(Game.POINTS_LIST_KEY, locationsInfo);
+        gameObj.put(Game.LOCATION_INFO_LIST_KEY, locationsInfo);
         gameObj.put(Game.END_POINT_KEY, endPoint);
         gameObj.saveInBackground();
     }

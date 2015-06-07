@@ -27,4 +27,13 @@
         android:layout_above="@+id/button"
         android:layout_toEndOf="@+id/textView" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2"
+        android:text="@string/CreateNewGameTest"
+        android:onClick="createNewGameTestButton"
+        android:layout_above="@+id/save_current_location_button"
+        android:layout_toEndOf="@+id/textView" />
+
 </RelativeLayout>
