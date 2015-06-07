@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 
 public class MainActivity extends Activity {
@@ -40,6 +41,7 @@ public class MainActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            testParseData();
             return true;
         }
 
@@ -52,6 +54,18 @@ public class MainActivity extends Activity {
         int gameID = 0x415;
         intent.putExtra("gameID", gameID);
         startActivity(intent);
+
+    }
+
+    // Button functions
+
+    private void testParseData() {
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("daniella", "test");
+        testObject.saveInBackground();
+    }
+
+    private void createNewLocation() {
 
     }
 }

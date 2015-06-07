@@ -6,9 +6,5 @@
     <string name="SearchScreenGoButton">Go to game</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_map_display">Map Display</string>
-    <string name="google_maps_key">AIzaSyCcNJr9E5t18OqtCC79HLtdOWwmYaNbhNA</string>
-
-
-    <string name="google_maps_key">AIzaSyCcNJr9E5t18OqtCC79HLtdOWwmYaNbhNA</string>
-
+    <string name="CreateNewLocation">CreateNewLocationTest</string>
 </resources>
