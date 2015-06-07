@@ -10,18 +10,31 @@ import com.parse.ParseQuery;
  */
 @ParseClassName("Point")
 public class Point extends ParseObject {
-//    public void createNewPoint(double lat, double lon) {
-//        put("lat", lat);
-//        put("lon", lon);
-//    }
+
+
+    public static final String KEY = "location";
 
     ////////////////////////
 
-    public static final String KEY = "location";
+    public void createNewPoint(double lat, double lon) {
+        ParseGeoPoint parseGeoPoint = new ParseGeoPoint();
+        parseGeoPoint.setLatitude(lat);
+        parseGeoPoint.setLongitude(lon);
+        put(KEY, parseGeoPoint);
+    }
+
 
     public void setLocation(ParseGeoPoint newLocation) {
         put(KEY, newLocation);
 
+    }
+
+
+    public void setLocation(double lat, double lon) {
+        ParseGeoPoint parseGeoPoint = new ParseGeoPoint();
+        parseGeoPoint.setLatitude(lat);
+        parseGeoPoint.setLongitude(lon);
+        put(KEY, parseGeoPoint);
     }
 
     public ParseGeoPoint getLocation() {

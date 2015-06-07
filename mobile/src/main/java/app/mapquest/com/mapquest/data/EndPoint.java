@@ -11,7 +11,17 @@ import com.parse.ParseQuery;
 public class EndPoint extends ParseObject{ // TODO: SHould extend LocationInfo
 
     ////////////////////////
-    public static final String KEY = "endpoint";
+    public static final String KEY = "endpoint"; // TODO: not necessary
+    public static final String KEY_GAME = "endpoint_game";
+    public static final String KEY_LOCATION_INFO = "endpoint_location_info";
+
+    public void setGame(Game game) {
+        put(KEY_GAME, game);
+    }
+
+    public void setPointInfo(LocationInfo locationInfo) {
+        put(KEY_LOCATION_INFO, locationInfo);
+    }
 
     public ParseObject getEndPoint() {
         return getParseObject(KEY);

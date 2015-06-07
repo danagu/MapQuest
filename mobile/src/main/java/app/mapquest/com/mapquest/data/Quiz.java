@@ -12,6 +12,7 @@ public class Quiz extends ParseObject {
 
     public static final String KEY = "quiz";
 
+
     public void createNewQuiz(String quiz) {
         put(KEY, quiz);
     }
