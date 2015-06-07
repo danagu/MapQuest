@@ -1,7 +1,5 @@
 package app.mapquest.com.mapquest.api;
 
-import com.parse.ParseObject;
-
 import java.util.List;
 
 import app.mapquest.com.mapquest.data.Answer;
@@ -17,17 +15,30 @@ import app.mapquest.com.mapquest.data.Quiz;
 public class Creating {
 
     public static void createNewGame(String gameName, List<LocationInfo> locationsInfo, EndPoint endPoint) {
-        ParseObject gameObj = new ParseObject("Game");
-        gameObj.put(Game.GAME_NAME_KEY, gameName); // TODO: handle same keys inserted.
-        gameObj.put(Game.LOCATION_INFO_LIST_KEY, locationsInfo);
-        gameObj.put(Game.END_POINT_KEY, endPoint);
-        gameObj.saveInBackground();
+        Game newGame = new Game(); // TODO: make sure that the name is unique.
+        newGame.setGameName(gameName);
+        for(LocationInfo locationInfo: locationsInfo) {
+            newGame.addPointToGame(locationInfo);
+        }
+        newGame.setEndPoint(endPoint);
+        newGame.saveInBackground();
     }
 
     public static void createNewLocationInfo(double lat, double lon, String quiz, String answer) {
-        new Point().createNewPoint(lat, lon);
-        new Quiz().createNewQuiz(quiz);
-        new Answer().createNewAnswer(answer);
+        Point newPoint = new Point();
+        newPoint.setLocation(lat, lon);
+        Quiz newQuiz = new Quiz();
+        newQuiz.createNewQuiz(quiz);
+        Answer newAnswer = new Answer();
+        newAnswer.createNewAnswer(answer);
+
+        LocationInfo newPointInfo = new LocationInfo();
+        newPointInfo.setPoint(newPoint);
+        newPointInfo.setQuiz(newQuiz);
+        newPointInfo.setAnswer(newAnswer);
+
+        newPointInfo.saveInBackground();
+
     }
 
     public static void createNewEndPoint(Game game, double lat, double lon, String quiz, String answer) {
