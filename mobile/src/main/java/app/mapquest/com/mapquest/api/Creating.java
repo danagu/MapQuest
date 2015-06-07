@@ -14,7 +14,7 @@ import app.mapquest.com.mapquest.data.Quiz;
  */
 public class Creating {
 
-    public static void createNewGame(String gameName, List<LocationInfo> locationsInfo, EndPoint endPoint) {
+    public static Game createNewGame(String gameName, List<LocationInfo> locationsInfo, EndPoint endPoint) {
         Game newGame = new Game(); // TODO: make sure that the name is unique.
         newGame.setGameName(gameName);
         for(LocationInfo locationInfo: locationsInfo) {
@@ -22,9 +22,10 @@ public class Creating {
         }
         newGame.setEndPoint(endPoint);
         newGame.saveInBackground();
+        return newGame;
     }
 
-    public static void createNewLocationInfo(double lat, double lon, String quiz, String answer) {
+    public static LocationInfo createNewLocationInfo(double lat, double lon, String quiz, String answer) {
         Point newPoint = new Point();
         newPoint.setLocation(lat, lon);
         Quiz newQuiz = new Quiz();
@@ -38,10 +39,13 @@ public class Creating {
         newPointInfo.setAnswer(newAnswer);
 
         newPointInfo.saveInBackground();
+        return newPointInfo;
 
     }
 
-    public static void createNewEndPoint(Game game, double lat, double lon, String quiz, String answer) {
+    //TODO: Should save the temp objects used?!
+
+    public static EndPoint createNewEndPoint(double lat, double lon, String quiz, String answer) {
         Point point = new Point();
         point.setLocation(lat, lon);
         Quiz eQuiz = new Quiz();
@@ -55,7 +59,11 @@ public class Creating {
         ePointInfo.setAnswer(eAnswer);
 
         EndPoint endPoint = new EndPoint();
-        endPoint.setGame(game);
+//        endPoint.setGame(game);
         endPoint.setPointInfo(ePointInfo);
+
+        endPoint.saveInBackground();
+
+        return endPoint;
     }
 }

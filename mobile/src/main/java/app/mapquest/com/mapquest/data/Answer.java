@@ -17,8 +17,8 @@ public class Answer extends ParseObject {
     ////////////////////////
     public static final String KEY = "answer";
 
-    public ParseObject getAnswer() {
-        return getParseObject(KEY);
+    public String getAnswerString() {
+        return (String) get(KEY);
     }
 
     public void setAnswer(ParseObject newAnswer) {
