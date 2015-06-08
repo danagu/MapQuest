@@ -31,16 +31,14 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
         initializeParse();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
     private void initializeParse() {
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-
         Parse.initialize(this, "GM7cHc32GFCgAwthzFbpc3X1iSZBbXfYzQrLMgbP", "UK7QTonPXE3j6IBt5DIOd4E10KWBAc64l3XYTz9l");
 
         // Can save in local datastore: pinInBackground()
@@ -95,40 +93,20 @@ public class MainActivity extends Activity {
         testObject.saveInBackground();
     }
 
-    public void createNewGameTestButton(View view) {
-//        LinkedList<LocationInfo> locationInfos = new LinkedList<LocationInfo>();
-//        LocationInfo locationInfo1 = new LocationInfo();
-//        ParseGeoPoint parseGeoPoint1 = new ParseGeoPoint();
-//        parseGeoPoint1.setLatitude(32.101243);
-//        parseGeoPoint1.setLatitude(34.788439);
-//
-//        Point point1 = new Point();
-//        point1.setLocation(parseGeoPoint1);
-//        point1.saveInBackground();
-//
-//        locationInfo1.setPoint(point1);
-//
-//        Game game1 = new Game();
-//        game1.setGameName("Game1");
-//        game1.addPointToGame(locationInfo1);
-//       game1.saveInBackground();
-
-
+    public void createNewGameTestButton(View view) throws ParseException {
         LinkedList<LocationInfo> locationInfos = new LinkedList<LocationInfo>();
         LocationInfo locationInfo1 = Creating.createNewLocationInfo(32.101243, 34.788439, "Ahuh?", "This my shit");
         locationInfos.add(locationInfo1);
 
         EndPoint endPointOfGame2 = Creating.createNewEndPoint(32.101116, 34.777485, "EndPointQ", "EndPointA");
 
-        Creating.createNewGame("Game2", locationInfos, endPointOfGame2);
-
         // Test get Game
-        testGetGame();
-
-
+        Game game = Creating.createNewGame("Game2", locationInfos, endPointOfGame2);
+        String gameId = game.getObjectId();
+        testGetGame(gameId);
     }
 
-    private void testGetGame() {
+    private void testGetGame(final String gameId) {
         ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
         query.whereEqualTo(Game.GAME_NAME_KEY, "Game2");
 
@@ -136,7 +114,7 @@ public class MainActivity extends Activity {
             @Override
             public void done(List<Game> results, ParseException e) {
                 for (Game a : results) {
-                    Toast.makeText(MainActivity.this, "Got game: " + (String) a.get(Game.GAME_NAME_KEY) ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Got game: " + a.getGameName() ,Toast.LENGTH_LONG).show();
                     Toast.makeText(MainActivity.this, "Got points: " ,Toast.LENGTH_LONG).show();
                     Toast.makeText(MainActivity.this, getPointsStr(a) ,Toast.LENGTH_LONG).show();
                     Toast.makeText(MainActivity.this, "Got questions: " ,Toast.LENGTH_LONG).show();
@@ -149,19 +127,20 @@ public class MainActivity extends Activity {
     }
 
     private String getPointsAnswers(Game a) {
-        List<LocationInfo> locationsList = (List<LocationInfo>) a.get(Game.LOCATION_INFO_LIST_KEY);
+        List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
         String strRepresentations = "";
         for(LocationInfo loc: locationsList) {
-            strRepresentations += loc.getAnswer().getAnswerString() + "\n";
+            strRepresentations += loc.getAnswer() + "\n";
         }
 
         return strRepresentations;
     }
 
     private String getPointsQuizes(Game a) {
-        List<LocationInfo> locationsList = (List<LocationInfo>) a.get(Game.LOCATION_INFO_LIST_KEY);
+        List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
         String strRepresentations = "";
         for(LocationInfo loc: locationsList) {
+            //loc.fetchIfNeeded().get(Quiz.KEY_QUIZ);
             strRepresentations += loc.getQuiz().getQuizString() + "\n";
         }
 
@@ -169,11 +148,28 @@ public class MainActivity extends Activity {
     }
 
     private String getPointsStr(Game a) {
-        List<LocationInfo> locationsList = (List<LocationInfo>) a.get(Game.LOCATION_INFO_LIST_KEY);
+        List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
         String strRepresentations = "";
         for(LocationInfo loc: locationsList) {
-            strRepresentations += "lat: " + loc.getParseGeoPoint(LocationInfo.POINT_KEY).getLatitude() +
-            " lon: " + loc.getParseGeoPoint(LocationInfo.POINT_KEY).getLongitude() + "\n";
+            double lat1 = 0;
+            double lon1 = 0;
+            try {
+                LocationInfo i = (LocationInfo) loc.fetchIfNeeded();
+                Point p = ((LocationInfo) i.fetchIfNeeded()).getPoint().fetch();
+                System.out.println("lat: " + p.getLatitude());
+                System.out.println("lon: " + p.getLongitude());
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+//             lat1 = loc.getPoint().getLatitude();
+//           lon1 = loc.fetchIfNeeded().getDouble(Point.KEY_LON);
+//             lon1 = loc.getPoint().getLongitude();
+             System.out.println("lat1: " + lat1);
+             System.out.println("lon1: " + lon1);
+             strRepresentations += "lat: " + lat1 + "\n";
+             strRepresentations += "lon: " + lon1 + "\n";
+
         }
 
         return strRepresentations;

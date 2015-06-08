@@ -1,5 +1,7 @@
 package app.mapquest.com.mapquest.api;
 
+import com.parse.ParseException;
+
 import java.util.List;
 
 import app.mapquest.com.mapquest.data.Answer;
@@ -25,7 +27,7 @@ public class Creating {
         return newGame;
     }
 
-    public static LocationInfo createNewLocationInfo(double lat, double lon, String quiz, String answer) {
+    public static LocationInfo createNewLocationInfo(double lat, double lon, String quiz, String answer) throws ParseException {
         Point newPoint = new Point();
         newPoint.setLocation(lat, lon);
         Quiz newQuiz = new Quiz();
@@ -45,7 +47,7 @@ public class Creating {
 
     //TODO: Should save the temp objects used?!
 
-    public static EndPoint createNewEndPoint(double lat, double lon, String quiz, String answer) {
+    public static EndPoint createNewEndPoint(double lat, double lon, String quiz, String answer) throws ParseException {
         Point point = new Point();
         point.setLocation(lat, lon);
         Quiz eQuiz = new Quiz();

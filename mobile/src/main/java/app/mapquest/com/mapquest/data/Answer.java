@@ -10,6 +10,10 @@ import com.parse.ParseQuery;
 @ParseClassName("Answer")
 public class Answer extends ParseObject {
 
+    public Answer() {
+
+    }
+
     public void createNewAnswer(String answer) {
         put(KEY, answer);
     }
@@ -17,8 +21,8 @@ public class Answer extends ParseObject {
     ////////////////////////
     public static final String KEY = "answer";
 
-    public String getAnswerString() {
-        return (String) get(KEY);
+    public String getAnswer() {
+        return getString(KEY);
     }
 
     public void setAnswer(ParseObject newAnswer) {
