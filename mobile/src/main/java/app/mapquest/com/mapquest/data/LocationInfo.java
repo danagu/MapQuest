@@ -1,7 +1,6 @@
 package app.mapquest.com.mapquest.data;
 
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -12,58 +11,60 @@ import com.parse.ParseQuery;
 @ParseClassName("LocationInfo")
 public class LocationInfo extends ParseObject {
 
-    ////////////////////////
-//    public static final String LOCATION_INFO_KEY = "location_info";
-    public static final String POINT_KEY = "location_info_point";
+    public static final String POINT_KEY_LAT = "location_info_lat";
+    public static final String POINT_KEY_LON = "location_info_lon";
     public static final String QUIZ_KEY = "location_info_quiz";
     public static final String ANSWER_KEY = "location_info_answer";
     public static final String SCORE_KEY = "location_info_score";
 
 
-    public void setLocationInfo(Point point, Quiz quiz, Answer answer, Score score) throws ParseException {
-        put(POINT_KEY, point);
+    public void setLocationInfo(double lat, double lon, String quiz, String answer, int score) {
+        put(POINT_KEY_LAT, lat);
+        put(POINT_KEY_LON, lon);
         put(QUIZ_KEY, quiz);
         put(ANSWER_KEY, answer);
         put(SCORE_KEY, score);
-        save();
+        saveInBackground();
     }
 
-    public void setPoint(Point point) throws ParseException {
-        put(POINT_KEY, point);
-        save();
+    public void setPoint(double lat, double lon) {
+        put(POINT_KEY_LAT, lat);
+        put(POINT_KEY_LON, lon);
+        saveInBackground(); // TODO: Is that necessary?!
     }
 
-    public void setQuiz(Quiz quiz) throws ParseException {
+    public void setQuiz(String quiz){
         put(QUIZ_KEY, quiz);
-        save();
+        saveInBackground();
     }
 
-    public void setAnswer(Answer answer) throws ParseException {
+    public void setAnswer(String answer) {
         put(ANSWER_KEY, answer);
-        save();
+        saveInBackground();
     }
 
-    public void setScore(Score score) throws ParseException {
+    public void setScore(int score) {
         put(SCORE_KEY, score);
-        save();
+        saveInBackground();
     }
 
     public static ParseQuery<LocationInfo> getQuery() {
         return ParseQuery.getQuery(LocationInfo.class);
     }
 
-    public Answer getAnswer() {
-        try {
-            return (Answer) getParseObject(ANSWER_KEY).fetchIfNeeded();
-        } catch (ParseException e) {
-            return null;
-        }
-    }
-    public Point getPoint() {
-        return (Point) getParseObject(POINT_KEY);
+    public String getAnswer() {
+        return getString(ANSWER_KEY); // fetchInBackground?!
     }
 
-    public Quiz getQuiz() {
-        return (Quiz) getParseObject(QUIZ_KEY);
+    public double getLat() {
+        return getDouble(POINT_KEY_LAT);
+    }
+
+    public double getLon() {
+        return getDouble(POINT_KEY_LON);
+    }
+
+    public String getQuiz() {
+        return getString(QUIZ_KEY);
     }
 }

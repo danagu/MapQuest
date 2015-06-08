@@ -8,7 +8,7 @@ import com.parse.ParseQuery;
  * Created by daniellag on 6/7/15.
  */
 @ParseClassName("EndPoint")
-public class EndPoint extends ParseObject{ // TODO: SHould extend LocationInfo
+public class EndPoint extends ParseObject{
 
     public EndPoint() {
 
@@ -21,11 +21,11 @@ public class EndPoint extends ParseObject{ // TODO: SHould extend LocationInfo
         put(KEY_LOCATION_INFO, locationInfo);
     }
 
-    public void setEndPoint(ParseObject newEndPoint) {
-        put(KEY_LOCATION_INFO, newEndPoint);
-    }
-
     public static ParseQuery<EndPoint> getEndPointQuery() {
         return ParseQuery.getQuery(EndPoint.class);
+    }
+
+    public LocationInfo getLocationInfo() {
+        return (LocationInfo) getParseObject(KEY_LOCATION_INFO);
     }
 }

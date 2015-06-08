@@ -18,13 +18,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import app.mapquest.com.mapquest.api.Creating;
-import app.mapquest.com.mapquest.data.Answer;
 import app.mapquest.com.mapquest.data.EndPoint;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
-import app.mapquest.com.mapquest.data.Point;
-import app.mapquest.com.mapquest.data.Quiz;
-import app.mapquest.com.mapquest.data.Score;
 
 
 public class MainActivity extends Activity {
@@ -42,13 +38,9 @@ public class MainActivity extends Activity {
         Parse.initialize(this, "GM7cHc32GFCgAwthzFbpc3X1iSZBbXfYzQrLMgbP", "UK7QTonPXE3j6IBt5DIOd4E10KWBAc64l3XYTz9l");
 
         // Can save in local datastore: pinInBackground()
-        ParseObject.registerSubclass(Answer.class);
         ParseObject.registerSubclass(EndPoint.class);
         ParseObject.registerSubclass(Game.class);
         ParseObject.registerSubclass(LocationInfo.class);
-        ParseObject.registerSubclass(Point.class);
-        ParseObject.registerSubclass(Quiz.class);
-        ParseObject.registerSubclass(Score.class);
     }
 
 
@@ -132,7 +124,9 @@ public class MainActivity extends Activity {
         List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
         String strRepresentations = "";
         for(LocationInfo loc: locationsList) {
-            strRepresentations += loc.getAnswer() + "\n"; // TODO: getAnswerString!
+            loc.fetchInBackground();
+            System.out.println("Answer: " + loc.getAnswer());
+            strRepresentations += loc.getAnswer() + "\n";
         }
 
         return strRepresentations;
@@ -142,15 +136,9 @@ public class MainActivity extends Activity {
         List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
         String strRepresentations = "";
         for(LocationInfo loc: locationsList) {
-            try {
-                LocationInfo i = (LocationInfo) loc.fetchIfNeeded();
-                System.out.println("Quiz: " + i.getQuiz());
-                strRepresentations += ( (Quiz)(i.getQuiz().fetchIfNeeded())).getQuizString() + "\n";
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            //loc.fetchIfNeeded().get(Quiz.KEY_QUIZ);
-//            strRepresentations += loc.getQuiz().getQuizString() + "\n";
+            loc.fetchInBackground();
+            System.out.println("Quiz: " + loc.getQuiz());
+                strRepresentations += loc.getQuiz() + "\n";
         }
 
         return strRepresentations;
@@ -160,22 +148,14 @@ public class MainActivity extends Activity {
         List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
         String strRepresentations = "";
         for(LocationInfo loc: locationsList) {
-            double lat1 = 0;
-            double lon1 = 0;
-            try {
-                LocationInfo i = (LocationInfo) loc.fetchIfNeeded();
-                Point p = ((LocationInfo) i.fetchIfNeeded()).getPoint().fetch();
-                System.out.println("lat: " + p.getLatitude());
-                System.out.println("lon: " + p.getLongitude());
+            loc.fetchInBackground();
+             System.out.println("lat: " + loc.getLat());
+             System.out.println("lon: " + loc.getLon());
 
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-             strRepresentations += "lat: " + lat1 + "\n";
-             strRepresentations += "lon: " + lon1 + "\n";
+             strRepresentations += "lat: " + loc.getLat() + "\n";
+             strRepresentations += "lon: " + loc.getLon() + "\n";
         }
 
-        ///
         ParseQuery<Game> query = a.getQuery();
         query.whereEqualTo(Game.GAME_NAME_KEY, "Game2");
         try {
@@ -183,8 +163,6 @@ public class MainActivity extends Activity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        ///
 
         return strRepresentations;
     }
