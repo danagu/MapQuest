@@ -1,7 +1,6 @@
 package app.mapquest.com.mapquest.data;
 
 import com.parse.ParseClassName;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -12,37 +11,35 @@ import com.parse.ParseQuery;
 public class Point extends ParseObject {
 
 
-    public static final String KEY = "location";
+    public static final String KEY_LAT = "point_lat";
+    public static final String KEY_LON = "point_lon";
 
-    ////////////////////////
+    public Point() {
 
-    public void createNewPoint(double lat, double lon) {
-        ParseGeoPoint parseGeoPoint = new ParseGeoPoint();
-        parseGeoPoint.setLatitude(lat);
-        parseGeoPoint.setLongitude(lon);
-        put(KEY, parseGeoPoint);
     }
 
-
-    public void setLocation(ParseGeoPoint newLocation) {
-        put(KEY, newLocation);
-
+    public void createNewPoint(double lat, double lon) {
+        put(KEY_LAT, lat);
+        put(KEY_LON, lon);
+        saveInBackground();
     }
 
 
     public void setLocation(double lat, double lon) {
-        ParseGeoPoint parseGeoPoint = new ParseGeoPoint();
-        parseGeoPoint.setLatitude(lat);
-        parseGeoPoint.setLongitude(lon);
-        put(KEY, parseGeoPoint);
-    }
-
-    public ParseGeoPoint getLocation() {
-        return getParseGeoPoint(KEY);
+        put(KEY_LAT, lat);
+        put(KEY_LON, lon);
+        saveInBackground();
     }
 
     public static ParseQuery<Point> getQuery() {
         return ParseQuery.getQuery(Point.class);
     }
 
+    public double getLongitude() {
+        return getDouble(KEY_LON);
+
+    }
+    public double getLatitude() {
+        return getDouble(KEY_LAT);
+    }
 }

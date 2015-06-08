@@ -32,4 +32,5 @@ public class Answer extends ParseObject {
     public static ParseQuery<Answer> getAnswerQuery() {
         return ParseQuery.getQuery(Answer.class);
     }
+
 }

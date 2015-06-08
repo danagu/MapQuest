@@ -10,15 +10,19 @@ import com.parse.ParseQuery;
 @ParseClassName("Score")
 public class Score extends ParseObject {
 
+    public Score() {
+
+    }
+
     public static final String KEY = "score";
 
     ////////////////////////
 
-    public ParseObject getScore() {
-        return getParseObject(KEY);
+    public int getScore() {
+        return getInt(KEY);
     }
 
-    public void setScore(ParseObject newScore) {
+    public void setScore(int newScore) {
         put(KEY, newScore);
     }
 

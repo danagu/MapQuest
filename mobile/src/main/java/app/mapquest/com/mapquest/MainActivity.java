@@ -98,6 +98,8 @@ public class MainActivity extends Activity {
         LocationInfo locationInfo1 = Creating.createNewLocationInfo(32.101243, 34.788439, "Ahuh?", "This my shit");
         locationInfos.add(locationInfo1);
 
+        // TODO: ParseObject.saveAllInBackground(mygames);
+
         EndPoint endPointOfGame2 = Creating.createNewEndPoint(32.101116, 34.777485, "EndPointQ", "EndPointA");
 
         // Test get Game
@@ -130,7 +132,7 @@ public class MainActivity extends Activity {
         List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
         String strRepresentations = "";
         for(LocationInfo loc: locationsList) {
-            strRepresentations += loc.getAnswer() + "\n";
+            strRepresentations += loc.getAnswer() + "\n"; // TODO: getAnswerString!
         }
 
         return strRepresentations;
@@ -140,8 +142,15 @@ public class MainActivity extends Activity {
         List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
         String strRepresentations = "";
         for(LocationInfo loc: locationsList) {
+            try {
+                LocationInfo i = (LocationInfo) loc.fetchIfNeeded();
+                System.out.println("Quiz: " + i.getQuiz());
+                strRepresentations += ( (Quiz)(i.getQuiz().fetchIfNeeded())).getQuizString() + "\n";
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             //loc.fetchIfNeeded().get(Quiz.KEY_QUIZ);
-            strRepresentations += loc.getQuiz().getQuizString() + "\n";
+//            strRepresentations += loc.getQuiz().getQuizString() + "\n";
         }
 
         return strRepresentations;
@@ -162,15 +171,20 @@ public class MainActivity extends Activity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-//             lat1 = loc.getPoint().getLatitude();
-//           lon1 = loc.fetchIfNeeded().getDouble(Point.KEY_LON);
-//             lon1 = loc.getPoint().getLongitude();
-             System.out.println("lat1: " + lat1);
-             System.out.println("lon1: " + lon1);
              strRepresentations += "lat: " + lat1 + "\n";
              strRepresentations += "lon: " + lon1 + "\n";
-
         }
+
+        ///
+        ParseQuery<Game> query = a.getQuery();
+        query.whereEqualTo(Game.GAME_NAME_KEY, "Game2");
+        try {
+            Game res = query.get(a.getObjectId());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        ///
 
         return strRepresentations;
     }

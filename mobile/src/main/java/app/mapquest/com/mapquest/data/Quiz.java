@@ -10,6 +10,10 @@ import com.parse.ParseQuery;
 @ParseClassName("Quiz")
 public class Quiz extends ParseObject {
 
+    public Quiz() {
+
+    }
+
     public static final String KEY = "quiz";
 
 
@@ -19,8 +23,8 @@ public class Quiz extends ParseObject {
 
     ////////////////////////
 
-    public ParseObject getQuiz() {
-        return getParseObject(KEY);
+    public String getQuizString() {
+        return getString(KEY);
     }
 
     public void setQuiz(ParseObject newQuiz) {

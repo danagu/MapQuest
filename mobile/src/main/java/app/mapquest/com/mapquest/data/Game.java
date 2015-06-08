@@ -42,8 +42,16 @@ public class Game extends ParseObject {
 
     }
 
+    public String getGameName() {
+        return getString(GAME_NAME_KEY);
+    }
+
     public void setEndPoint(EndPoint newEndPoint) {
         put(END_POINT_KEY, newEndPoint);
+    }
+
+    public List<LocationInfo> getAllGameLocationsInfo() {
+        return (List<LocationInfo>) get(LOCATION_INFO_LIST_KEY);
     }
 
 
