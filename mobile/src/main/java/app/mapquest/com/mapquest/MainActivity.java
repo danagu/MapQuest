@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -18,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import app.mapquest.com.mapquest.api.Creating;
+import app.mapquest.com.mapquest.api.Getting;
 import app.mapquest.com.mapquest.data.EndPoint;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
@@ -97,27 +97,43 @@ public class MainActivity extends Activity {
         // Test get Game
         Game game = Creating.createNewGame("Game2", locationInfos, endPointOfGame2);
         String gameId = game.getObjectId();
-        testGetGame(gameId);
+        testGetGame();
     }
 
-    private void testGetGame(final String gameId) {
-        ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
-        query.whereEqualTo(Game.GAME_NAME_KEY, "Game2");
-
-        query.findInBackground(new FindCallback<Game>() {
-            @Override
-            public void done(List<Game> results, ParseException e) {
-                for (Game a : results) {
-                    Toast.makeText(MainActivity.this, "Got game: " + a.getGameName() ,Toast.LENGTH_LONG).show();
-                    Toast.makeText(MainActivity.this, "Got points: " ,Toast.LENGTH_LONG).show();
-                    Toast.makeText(MainActivity.this, getPointsStr(a) ,Toast.LENGTH_LONG).show();
-                    Toast.makeText(MainActivity.this, "Got questions: " ,Toast.LENGTH_LONG).show();
-                    Toast.makeText(MainActivity.this, getPointsQuizes(a) ,Toast.LENGTH_LONG).show();
-                    Toast.makeText(MainActivity.this, "Got answers: " ,Toast.LENGTH_LONG).show();
-                    Toast.makeText(MainActivity.this, getPointsAnswers(a) ,Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+    private void testGetGame() {
+//        ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
+//        query.whereEqualTo(Game.GAME_NAME_KEY, "Game2");
+//
+//        query.findInBackground(new FindCallback<Game>() {
+//            @Override
+//            public void done(List<Game> results, ParseException e) {
+//                for (Game a : results) {
+//                    Toast.makeText(MainActivity.this, "Got game: " + a.getGameName() ,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MainActivity.this, "Got points: " ,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MainActivity.this, getPointsStr(a) ,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MainActivity.this, "Got questions: " ,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MainActivity.this, getPointsQuizes(a) ,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MainActivity.this, "Got answers: " ,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MainActivity.this, getPointsAnswers(a) ,Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        });
+        try {
+            Game resultGame = Getting.getGame("Game2");
+            System.out.println("1");
+            Toast.makeText(MainActivity.this, "Got game: " + resultGame.getGameName(), Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Got points: " ,Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, getPointsStr(resultGame) ,Toast.LENGTH_LONG).show();
+            System.out.println("2");
+            Toast.makeText(MainActivity.this, "Got questions: " ,Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, getPointsQuizes(resultGame) ,Toast.LENGTH_LONG).show();
+            System.out.println("3");
+            Toast.makeText(MainActivity.this, "Got answers: " ,Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, getPointsAnswers(resultGame) ,Toast.LENGTH_LONG).show();
+            System.out.println("4");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private String getPointsAnswers(Game a) {
@@ -148,8 +164,13 @@ public class MainActivity extends Activity {
         List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
         String strRepresentations = "";
         for(LocationInfo loc: locationsList) {
-            loc.fetchInBackground();
-             System.out.println("lat: " + loc.getLat());
+//            loc.fetchInBackground();
+            try {
+                loc.fetchIfNeeded();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            System.out.println("lat: " + loc.getLat());
              System.out.println("lon: " + loc.getLon());
 
              strRepresentations += "lat: " + loc.getLat() + "\n";
