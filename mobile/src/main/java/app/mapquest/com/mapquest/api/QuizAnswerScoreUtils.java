@@ -39,9 +39,8 @@ public class QuizAnswerScoreUtils {
         return locationInfo.getQuiz();
     }
 
-    public static void loadLocationInfoToCache(String gameName, int lat, int lon) throws ParseException {
-        Game game = Getting.getGame(gameName); // TODO: Load the game as singeltone
-
-    }
-
+//    public static void loadLocationInfoToCache(String gameName, int lat, int lon) throws ParseException {
+//        Game game = Getting.getGame(gameName);
+//
+//    }
 }

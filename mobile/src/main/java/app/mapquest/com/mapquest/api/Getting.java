@@ -17,17 +17,31 @@ public class Getting {
 
     // If exception thrown - game wasn't found.
     public static Game getGame(String gameName) throws ParseException {
+//        ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
+//        query.whereEqualTo(Game.GAME_NAME_KEY, gameName);
+//        Game resultGame = query.getFirst(); // TODO: handle a lot of!
+//        saveToCache(resultGame);
+//        return resultGame;
+
+        // This is the fixed one
         ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
         query.whereEqualTo(Game.GAME_NAME_KEY, gameName);
+
         Game resultGame = query.getFirst(); // TODO: handle a lot of!
+        resultGame.put(resultGame.getGameName(), resultGame);
         return resultGame;
     }
+
+//    private static void saveToCache(Game resultGame) throws ParseException { // TODO: remove
+//       resultGame.pin(resultGame.getGameName());
+//    }
 
     public static LocationInfo getLocationInfo(String gameName, double lat, double lon) throws ParseException {
         Game game = getGame(gameName);
         // fetch if needed?!?!?!
         List<LocationInfo> locationInfos = game.getAllGameLocationsInfo();
-        ParseObject.fetchAll(locationInfos);
+        ParseObject.pinAllInBackground(locationInfos);
         for(LocationInfo location: locationInfos) {
             if(location.getLat() == lat && location.getLon() == lon) {
                 return location;
