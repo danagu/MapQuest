@@ -101,6 +101,11 @@ public class MainActivity extends Activity {
         testGetLocationInfo("Game2", 32.101243, 34.788439);
     }
 
+
+    /**
+     * TESTS AND USAGE ****
+     */
+
     private void testGetGame() {
         try {
             Game resultGame = Getting.getGame("Game2");

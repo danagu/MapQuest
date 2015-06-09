@@ -59,4 +59,7 @@ public class Game extends ParseObject {
         return ParseQuery.getQuery(Game.class);
     }
 
+    public EndPoint getEndPoint() {
+        return (EndPoint) getParseObject(END_POINT_KEY);
+    }
 }

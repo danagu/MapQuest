@@ -6,6 +6,7 @@ import com.parse.ParseQuery;
 
 import java.util.List;
 
+import app.mapquest.com.mapquest.data.EndPoint;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
 
@@ -33,8 +34,34 @@ public class Getting {
             }
         }
 
-        return null; // TODO: maybe throw exception?!
+        return null; // maybe throw exception?!
+    }
 
+    public static boolean isEndPointOfGame(String gameName, double lat, double lon) throws ParseException {
+        Game game = getGame(gameName);
+//        game.fetchInBackground();
+        EndPoint gamesEndPoint = game.getEndPoint();
+        gamesEndPoint.fetchInBackground();
+        LocationInfo locationInfoOfEndPoint = gamesEndPoint.getLocationInfo();
+        locationInfoOfEndPoint.fetchInBackground();
+        if(locationInfoOfEndPoint.getLat() == lat && locationInfoOfEndPoint.getLon() == lon) {
+            return true;
+        }
+        return false;
+    }
+
+    // NOT TESTED!!
+
+    public static EndPoint getGamesEndPoint(String gameName) throws ParseException {
+        Game game = getGame(gameName);
+        return game.getEndPoint();
+    }
+
+    public static LocationInfo getGamesEndPointLocationInfo(String gameName) throws ParseException {
+        Game game = getGame(gameName);
+        EndPoint endPoint = game.getEndPoint();
+        endPoint.fetchInBackground();
+        return endPoint.getLocationInfo();
     }
 }
 
