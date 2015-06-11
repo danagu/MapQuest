@@ -5,7 +5,7 @@ package app.mapquest.com.mapquest.testing;
  */
 public class Test {
 
-//    public void createNewGameTestButton() {
+//    public void testButton() {
 //        LinkedList<LocationInfo> locationInfos = new LinkedList<LocationInfo>();
 //        LocationInfo locationInfo1 = new LocationInfo();
 //        ParseGeoPoint parseGeoPoint1 = new ParseGeoPoint();

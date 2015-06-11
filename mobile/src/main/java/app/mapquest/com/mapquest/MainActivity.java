@@ -11,13 +11,12 @@ import android.widget.Toast;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import app.mapquest.com.mapquest.api.Creating;
 import app.mapquest.com.mapquest.api.Getting;
+import app.mapquest.com.mapquest.api.QuizAnswerScoreUtils;
 import app.mapquest.com.mapquest.data.EndPoint;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
@@ -85,100 +84,75 @@ public class MainActivity extends Activity {
         testObject.saveInBackground();
     }
 
-    public void createNewGameTestButton(View view) throws ParseException {
+    public void testButton(View view) throws ParseException {
         LinkedList<LocationInfo> locationInfos = new LinkedList<LocationInfo>();
-        LocationInfo locationInfo1 = Creating.createNewLocationInfo(32.101243, 34.788439, "Ahuh?", "This my shit");
+        LocationInfo locationInfo1 = Creating.createNewLocationInfo(2, 2, "2?", "2!");
         locationInfos.add(locationInfo1);
 
-        // TODO: ParseObject.saveAllInBackground(mygames);
-
-        EndPoint endPointOfGame2 = Creating.createNewEndPoint(32.101116, 34.777485, "EndPointQ", "EndPointA");
+        EndPoint endPointOfGame2 = Creating.createNewEndPoint(2.9, 2.9, "EndPointQ", "EndPointA");
 
         // Test get Game
-        Game game = Creating.createNewGame("Game2", locationInfos, endPointOfGame2);
-        String gameId = game.getObjectId();
-//        testGetGame();
-        testGetLocationInfo("Game2", 32.101243, 34.788439);
+        Game game = Creating.createNewGame("Game", locationInfos, endPointOfGame2);
+        game.setEndPoint(endPointOfGame2);
+        testGetGameFromGetting();
     }
-
 
     /**
      * TESTS AND USAGE ****
      */
 
-    private void testGetGame() {
+
+    private void testGetGameFromGetting() {
         try {
-            Game resultGame = Getting.getGame("Game2");
+            Game resultGame = Getting.getGame("Game");
             Toast.makeText(MainActivity.this, "Got game: " + resultGame.getGameName(), Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, "Got points: " ,Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, getPointsStr(resultGame) ,Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Got points: ",Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, Getting.getAllGamesLocationInfosString(resultGame.getGameName()) ,Toast.LENGTH_LONG).show();
             Toast.makeText(MainActivity.this, "Got questions: " ,Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, getPointsQuizes(resultGame) ,Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, QuizAnswerScoreUtils.getAllQuizesOfGameAsString(resultGame.getGameName()) ,Toast.LENGTH_LONG).show();
             Toast.makeText(MainActivity.this, "Got answers: " ,Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, getPointsAnswers(resultGame) ,Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, QuizAnswerScoreUtils.getAllAnswersOfGameAsString(resultGame.getGameName()) ,Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Got end point: " ,Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, Getting.getGamesEndPoint(resultGame.getGameName()).toString() ,Toast.LENGTH_LONG).show();
         } catch (ParseException e) {
+            System.out.println("##### GOT EXCEPTION !!!!!!! ############# ");
             e.printStackTrace();
         }
+
     }
 
-    private void testGetLocationInfo(String gameName, double lat, double lon) {
-        try {
-            LocationInfo locationInfo = Getting.getLocationInfo(gameName, lat, lon);
-            Toast.makeText(MainActivity.this, "#LOCATION INFO# ACCEPTED: " + locationInfo.getLat() + "," + locationInfo.getLon() + " ", Toast.LENGTH_LONG).show();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
 
-    private String getPointsAnswers(Game a) {
-        List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
-        String strRepresentations = "";
-        for(LocationInfo loc: locationsList) {
-            loc.fetchInBackground();
-            System.out.println("Answer: " + loc.getAnswer());
-            strRepresentations += loc.getAnswer() + "\n";
-        }
-
-        return strRepresentations;
-    }
-
-    private String getPointsQuizes(Game a) {
-        List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
-        String strRepresentations = "";
-        for(LocationInfo loc: locationsList) {
-            loc.fetchInBackground();
-            System.out.println("Quiz: " + loc.getQuiz());
-                strRepresentations += loc.getQuiz() + "\n";
-        }
-
-        return strRepresentations;
-    }
-
-    private String getPointsStr(Game a) {
-        List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
-        String strRepresentations = "";
-        for(LocationInfo loc: locationsList) {
+//    private void testGetLocationInfo(String gameName, double lat, double lon) {
+//        try {
+//            LocationInfo locationInfo = Getting.getLocationInfo(gameName, lat, lon);
+//            Toast.makeText(MainActivity.this, "#LOCATION INFO# ACCEPTED: " + locationInfo.getLat() + "," + locationInfo.getLon() + " ", Toast.LENGTH_LONG).show();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private String getPointsAnswers(Game a) {
+//        List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
+//        String strRepresentations = "";
+//        for(LocationInfo loc: locationsList) {
 //            loc.fetchInBackground();
-            try {
-                loc.fetchIfNeeded();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            System.out.println("lat: " + loc.getLat());
-             System.out.println("lon: " + loc.getLon());
+//            System.out.println("Answer: " + loc.getAnswer());
+//            strRepresentations += loc.getAnswer() + "\n";
+//        }
+//
+//        return strRepresentations;
+//    }
+//
+//    private String getPointsQuizes(Game a) {
+//        List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
+//        String strRepresentations = "";
+//        for(LocationInfo loc: locationsList) {
+//            loc.fetchInBackground();
+//            System.out.println("Quiz: " + loc.getQuiz());
+//                strRepresentations += loc.getQuiz() + "\n";
+//        }
+//
+//        return strRepresentations;
+//    }
 
-             strRepresentations += "lat: " + loc.getLat() + "\n";
-             strRepresentations += "lon: " + loc.getLon() + "\n";
-        }
-
-        ParseQuery<Game> query = a.getQuery();
-        query.whereEqualTo(Game.GAME_NAME_KEY, "Game2");
-        try {
-            Game res = query.get(a.getObjectId());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return strRepresentations;
-    }
 }

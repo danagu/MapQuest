@@ -30,7 +30,7 @@ public class LocationInfo extends ParseObject {
     public void setPoint(double lat, double lon) {
         put(POINT_KEY_LAT, lat);
         put(POINT_KEY_LON, lon);
-        saveInBackground(); // TODO: Is that necessary?!
+        saveInBackground();
     }
 
     public void setQuiz(String quiz){
@@ -66,5 +66,13 @@ public class LocationInfo extends ParseObject {
 
     public String getQuiz() {
         return getString(QUIZ_KEY);
+    }
+
+    @Override
+    public String toString() {
+        String strRepresentation = "End point: \n";
+        strRepresentation += "lat: " + getLat() + " lon: " + getLon() + " quiz: " + getQuiz() + " answer: " + getAnswer();
+        return strRepresentation;
+
     }
 }

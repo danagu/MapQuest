@@ -13,14 +13,13 @@ import app.mapquest.com.mapquest.data.LocationInfo;
  */
 public class Creating {
 
-    public static Game createNewGame(String gameName, List<LocationInfo> locationsInfo, EndPoint endPoint) {
+    public static Game createNewGame(String gameName, List<LocationInfo> locationsInfo, EndPoint endPoint) throws ParseException {
         Game newGame = new Game(); // TODO: make sure that the name is unique.
         newGame.setGameName(gameName);
         for(LocationInfo locationInfo: locationsInfo) {
             newGame.addPointToGame(locationInfo);
         }
         newGame.setEndPoint(endPoint);
-        newGame.saveInBackground();
         return newGame;
     }
 
@@ -31,14 +30,12 @@ public class Creating {
 
     }
 
-    //TODO: Should save the temp objects used?!
-
     public static EndPoint createNewEndPoint(double lat, double lon, String quiz, String answer) throws ParseException {
         LocationInfo newLocation = new LocationInfo();
         newLocation.setLocationInfo(lat, lon, quiz, answer, 0); // TODO: This is default score!
 
         EndPoint endPoint = new EndPoint();
-        endPoint.setPointInfo(newLocation);
+        endPoint.setEndPoint(newLocation);
 
         return endPoint;
     }

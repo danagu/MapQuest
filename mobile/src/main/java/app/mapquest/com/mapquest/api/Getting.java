@@ -17,30 +17,18 @@ public class Getting {
 
     // If exception thrown - game wasn't found.
     public static Game getGame(String gameName) throws ParseException {
-//        ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
-//        query.whereEqualTo(Game.GAME_NAME_KEY, gameName);
-//        Game resultGame = query.getFirst(); // TODO: handle a lot of!
-//        saveToCache(resultGame);
-//        return resultGame;
-
-        // This is the fixed one
         ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+//        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // impossible with local datastore
         query.whereEqualTo(Game.GAME_NAME_KEY, gameName);
 
         Game resultGame = query.getFirst(); // TODO: handle a lot of!
-        resultGame.put(resultGame.getGameName(), resultGame);
         return resultGame;
     }
 
-//    private static void saveToCache(Game resultGame) throws ParseException { // TODO: remove
-//       resultGame.pin(resultGame.getGameName());
-//    }
-
     public static LocationInfo getLocationInfo(String gameName, double lat, double lon) throws ParseException {
         Game game = getGame(gameName);
-        // fetch if needed?!?!?!
         List<LocationInfo> locationInfos = game.getAllGameLocationsInfo();
+        // Fetches to local datastore?
         ParseObject.pinAllInBackground(locationInfos);
         for(LocationInfo location: locationInfos) {
             if(location.getLat() == lat && location.getLon() == lon) {
@@ -51,30 +39,53 @@ public class Getting {
         return null; // maybe throw exception?!
     }
 
+    public static List<LocationInfo> getAllGamesLocationInfos(String gameName) throws ParseException {
+        // TODO: USE A QUERY?
+        Game game = getGame(gameName);
+        List<LocationInfo> locationsList = game.getAllGameLocationsInfo();
+        ParseObject.pinAllInBackground(locationsList);
+        ParseObject.fetchAllIfNeeded(locationsList); //!?
+        return locationsList;
+    }
+    // NOT TESTED!!
+
+    public static String getAllGamesLocationInfosString(String gameName) throws ParseException {
+        String strRepresentations = "";
+        List<LocationInfo> locationInfos = getAllGamesLocationInfos(gameName);
+        for(LocationInfo loc: locationInfos) {
+            strRepresentations += "lat: " + loc.getLat() + "\n";
+            strRepresentations += "lon: " + loc.getLon() + "\n";
+        }
+        return strRepresentations;
+    }
+
+
+
     public static boolean isEndPointOfGame(String gameName, double lat, double lon) throws ParseException {
         Game game = getGame(gameName);
-//        game.fetchInBackground();
         EndPoint gamesEndPoint = game.getEndPoint();
-        gamesEndPoint.fetchInBackground();
+//        gamesEndPoint.fetchInBackground();
+        gamesEndPoint.pinInBackground();
         LocationInfo locationInfoOfEndPoint = gamesEndPoint.getLocationInfo();
-        locationInfoOfEndPoint.fetchInBackground();
+//        locationInfoOfEndPoint.fetchInBackground();
+        locationInfoOfEndPoint.pinInBackground();
         if(locationInfoOfEndPoint.getLat() == lat && locationInfoOfEndPoint.getLon() == lon) {
             return true;
         }
         return false;
     }
 
-    // NOT TESTED!!
-
     public static EndPoint getGamesEndPoint(String gameName) throws ParseException {
         Game game = getGame(gameName);
-        return game.getEndPoint();
+        game.fetchIfNeeded(); // does return subclasses?
+        return game.getEndPoint();  //get in bg?
     }
 
     public static LocationInfo getGamesEndPointLocationInfo(String gameName) throws ParseException {
         Game game = getGame(gameName);
         EndPoint endPoint = game.getEndPoint();
-        endPoint.fetchInBackground();
+//        endPoint.fetchInBackground();
+        endPoint.pinInBackground();
         return endPoint.getLocationInfo();
     }
 }

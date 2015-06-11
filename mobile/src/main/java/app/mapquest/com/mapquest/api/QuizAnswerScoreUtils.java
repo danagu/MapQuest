@@ -25,7 +25,7 @@ public class QuizAnswerScoreUtils {
     public static String getAnswerForQuizByQuiz(String gameName, String quiz) throws ParseException {
         Game game = Getting.getGame(gameName);
         List<LocationInfo> gamesLocations = game.getAllGameLocationsInfo();
-        ParseObject.fetchAll(gamesLocations);
+        ParseObject.pinAllInBackground(gamesLocations); // fetchAll?
         for(LocationInfo locationInfo: gamesLocations) {
             if(locationInfo.getQuiz().equals(quiz)) {
                 return locationInfo.getAnswer();
@@ -39,8 +39,26 @@ public class QuizAnswerScoreUtils {
         return locationInfo.getQuiz();
     }
 
-//    public static void loadLocationInfoToCache(String gameName, int lat, int lon) throws ParseException {
-//        Game game = Getting.getGame(gameName);
-//
-//    }
+    public static String getAllQuizesOfGameAsString(String gameName) throws ParseException {
+        String quizStrRepresentation = "";
+        Game game = Getting.getGame(gameName);
+        List<LocationInfo> gamesLocations = game.getAllGameLocationsInfo();
+        ParseObject.pinAllInBackground(gamesLocations);
+        for(LocationInfo locationInfo: gamesLocations) {
+            quizStrRepresentation += locationInfo.getQuiz() + "\n";
+        }
+        return quizStrRepresentation;
+
+    }
+
+    public static String getAllAnswersOfGameAsString(String gameName) throws ParseException {
+        String answerStrRepresentation = "";
+        Game game = Getting.getGame(gameName);
+        List<LocationInfo> gamesLocations = game.getAllGameLocationsInfo();
+        ParseObject.pinAllInBackground(gamesLocations);
+        for(LocationInfo locationInfo: gamesLocations) {
+            answerStrRepresentation += locationInfo.getAnswer() + "\n";
+        }
+        return answerStrRepresentation;
+    }
 }

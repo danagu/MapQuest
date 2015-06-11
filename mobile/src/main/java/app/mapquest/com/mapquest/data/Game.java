@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * All put and get methods are to local datastore.
+ *
  * Created by daniellag on 6/7/15.
  */
 @ParseClassName("Game")
@@ -19,10 +21,9 @@ public class Game extends ParseObject {
 
     ////////////////////////
 
-    public static final String KEY = "game";
-
     public void setGameName(String newName) {
         put(GAME_NAME_KEY, newName);
+        saveInBackground();
     }
 
     public void addPointToGame(LocationInfo newLocationInfo) {
@@ -37,9 +38,7 @@ public class Game extends ParseObject {
         currentList.add(newLocationInfo);
 
         put(LOCATION_INFO_LIST_KEY, currentList);
-
-        // TODO: Save in bg?
-
+        saveInBackground();
     }
 
     public String getGameName() {
@@ -48,6 +47,7 @@ public class Game extends ParseObject {
 
     public void setEndPoint(EndPoint newEndPoint) {
         put(END_POINT_KEY, newEndPoint);
+        saveInBackground();
     }
 
     public List<LocationInfo> getAllGameLocationsInfo() {

@@ -17,8 +17,9 @@ public class EndPoint extends ParseObject{
     ////////////////////////
     public static final String KEY_LOCATION_INFO = "endpoint_location_info";
 
-    public void setPointInfo(LocationInfo locationInfo) {
+    public void setEndPoint(LocationInfo locationInfo) {
         put(KEY_LOCATION_INFO, locationInfo);
+        saveInBackground();
     }
 
     public static ParseQuery<EndPoint> getEndPointQuery() {
@@ -26,6 +27,13 @@ public class EndPoint extends ParseObject{
     }
 
     public LocationInfo getLocationInfo() {
-        return (LocationInfo) getParseObject(KEY_LOCATION_INFO);
+//        fetchIfNeeded();
+        return (LocationInfo) get(KEY_LOCATION_INFO);
+    }
+
+    @Override
+    public String toString() {
+        return getLocationInfo().toString();
+
     }
 }
