@@ -16,7 +16,6 @@ import java.util.LinkedList;
 
 import app.mapquest.com.mapquest.api.Creating;
 import app.mapquest.com.mapquest.api.Getting;
-import app.mapquest.com.mapquest.api.QuizAnswerScoreUtils;
 import app.mapquest.com.mapquest.data.EndPoint;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
@@ -85,74 +84,30 @@ public class MainActivity extends Activity {
     }
 
     public void testButton(View view) throws ParseException {
+//        createNewGame();
+        printGameInfo();
+    }
+
+
+    /**
+     * TESTS AND USAGE ****
+     */
+
+    private void printGameInfo() throws ParseException {
+        Game game = Getting.getGame("Game");
+        Toast.makeText(MainActivity.this, "Got game: " + game.toString(), Toast.LENGTH_LONG).show();
+    }
+
+    private void createNewGame() throws ParseException {
         LinkedList<LocationInfo> locationInfos = new LinkedList<LocationInfo>();
         LocationInfo locationInfo1 = Creating.createNewLocationInfo(2, 2, "2?", "2!");
         locationInfos.add(locationInfo1);
 
         EndPoint endPointOfGame2 = Creating.createNewEndPoint(2.9, 2.9, "EndPointQ", "EndPointA");
 
-        // Test get Game
         Game game = Creating.createNewGame("Game", locationInfos, endPointOfGame2);
         game.setEndPoint(endPointOfGame2);
-        testGetGameFromGetting();
-    }
-
-    /**
-     * TESTS AND USAGE ****
-     */
-
-
-    private void testGetGameFromGetting() {
-        try {
-            Game resultGame = Getting.getGame("Game");
-            Toast.makeText(MainActivity.this, "Got game: " + resultGame.getGameName(), Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, "Got points: ",Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, Getting.getAllGamesLocationInfosString(resultGame.getGameName()) ,Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, "Got questions: " ,Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, QuizAnswerScoreUtils.getAllQuizesOfGameAsString(resultGame.getGameName()) ,Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, "Got answers: " ,Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, QuizAnswerScoreUtils.getAllAnswersOfGameAsString(resultGame.getGameName()) ,Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, "Got end point: " ,Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, Getting.getGamesEndPoint(resultGame.getGameName()).toString() ,Toast.LENGTH_LONG).show();
-        } catch (ParseException e) {
-            System.out.println("##### GOT EXCEPTION !!!!!!! ############# ");
-            e.printStackTrace();
-        }
 
     }
-
-
-//    private void testGetLocationInfo(String gameName, double lat, double lon) {
-//        try {
-//            LocationInfo locationInfo = Getting.getLocationInfo(gameName, lat, lon);
-//            Toast.makeText(MainActivity.this, "#LOCATION INFO# ACCEPTED: " + locationInfo.getLat() + "," + locationInfo.getLon() + " ", Toast.LENGTH_LONG).show();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private String getPointsAnswers(Game a) {
-//        List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
-//        String strRepresentations = "";
-//        for(LocationInfo loc: locationsList) {
-//            loc.fetchInBackground();
-//            System.out.println("Answer: " + loc.getAnswer());
-//            strRepresentations += loc.getAnswer() + "\n";
-//        }
-//
-//        return strRepresentations;
-//    }
-//
-//    private String getPointsQuizes(Game a) {
-//        List<LocationInfo> locationsList = a.getAllGameLocationsInfo();
-//        String strRepresentations = "";
-//        for(LocationInfo loc: locationsList) {
-//            loc.fetchInBackground();
-//            System.out.println("Quiz: " + loc.getQuiz());
-//                strRepresentations += loc.getQuiz() + "\n";
-//        }
-//
-//        return strRepresentations;
-//    }
 
 }

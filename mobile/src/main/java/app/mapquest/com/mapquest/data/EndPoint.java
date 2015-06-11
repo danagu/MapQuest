@@ -10,11 +10,6 @@ import com.parse.ParseQuery;
 @ParseClassName("EndPoint")
 public class EndPoint extends ParseObject{
 
-    public EndPoint() {
-
-    }
-
-    ////////////////////////
     public static final String KEY_LOCATION_INFO = "endpoint_location_info";
 
     public void setEndPoint(LocationInfo locationInfo) {
@@ -22,18 +17,17 @@ public class EndPoint extends ParseObject{
         saveInBackground();
     }
 
-    public static ParseQuery<EndPoint> getEndPointQuery() {
-        return ParseQuery.getQuery(EndPoint.class);
-    }
 
     public LocationInfo getLocationInfo() {
-//        fetchIfNeeded();
         return (LocationInfo) get(KEY_LOCATION_INFO);
     }
 
     @Override
     public String toString() {
         return getLocationInfo().toString();
+    }
 
+    public static ParseQuery<EndPoint> getEndPointQuery() {
+        return ParseQuery.getQuery(EndPoint.class);
     }
 }

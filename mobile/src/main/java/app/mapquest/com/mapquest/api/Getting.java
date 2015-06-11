@@ -18,7 +18,6 @@ public class Getting {
     // If exception thrown - game wasn't found.
     public static Game getGame(String gameName) throws ParseException {
         ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
-//        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // impossible with local datastore
         query.whereEqualTo(Game.GAME_NAME_KEY, gameName);
 
         Game resultGame = query.getFirst(); // TODO: handle a lot of!
@@ -84,7 +83,6 @@ public class Getting {
     public static LocationInfo getGamesEndPointLocationInfo(String gameName) throws ParseException {
         Game game = getGame(gameName);
         EndPoint endPoint = game.getEndPoint();
-//        endPoint.fetchInBackground();
         endPoint.pinInBackground();
         return endPoint.getLocationInfo();
     }

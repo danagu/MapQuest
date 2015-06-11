@@ -20,22 +20,25 @@ public class Creating {
             newGame.addPointToGame(locationInfo);
         }
         newGame.setEndPoint(endPoint);
+//        newGame.pinInBackground(); SHOULDN'T BE HERE CAUSE ALL OTHER ARE PINNED AND THE GAME IS FETCHED BY NAME
         return newGame;
     }
 
     public static LocationInfo createNewLocationInfo(double lat, double lon, String quiz, String answer) throws ParseException {
         LocationInfo newLocation = new LocationInfo();
         newLocation.setLocationInfo(lat, lon, quiz, answer, 0); // TODO: This is default score!
+        newLocation.pinInBackground();
         return newLocation;
 
     }
 
     public static EndPoint createNewEndPoint(double lat, double lon, String quiz, String answer) throws ParseException {
-        LocationInfo newLocation = new LocationInfo();
-        newLocation.setLocationInfo(lat, lon, quiz, answer, 0); // TODO: This is default score!
+        LocationInfo newLocation = createNewLocationInfo(lat, lon, quiz, answer);
 
         EndPoint endPoint = new EndPoint();
         endPoint.setEndPoint(newLocation);
+
+        endPoint.pinInBackground();
 
         return endPoint;
     }
