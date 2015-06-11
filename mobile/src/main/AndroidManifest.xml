@@ -41,7 +41,7 @@
             android:label="@string/title_activity_map_display" >
         </activity>
 
-        <service android:name=".GeofenceTransitionsIntentService"/>
+        <service android:name="app.mapquest.com.mapquest.geofencing.GeofenceTransitionsIntentService"/>
 
     </application>
 
