@@ -18,14 +18,6 @@
         android:text="@string/SearchScreenGoButton"
         android:onClick="goToGame" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/save_current_location_button"
-        android:text="@string/CreateNewLocation"
-        android:onClick="createNewLocation"
-        android:layout_above="@+id/button"
-        android:layout_toEndOf="@+id/textView" />
 
     <Button
         android:layout_width="wrap_content"
@@ -33,7 +25,6 @@
         android:id="@+id/button2"
         android:text="@string/CreateNewGameTest"
         android:onClick="testButton"
-        android:layout_above="@+id/save_current_location_button"
         android:layout_toEndOf="@+id/textView" />
 
 </RelativeLayout>
