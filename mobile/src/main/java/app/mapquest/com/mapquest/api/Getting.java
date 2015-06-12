@@ -93,7 +93,7 @@ public class Getting {
         gameParseQuery.findInBackground(new FindCallback<Game>() {
             @Override
             public void done(List<Game> games, ParseException e) {
-                if(e == null) {
+                if (e == null) {
                     ParseObject.pinAllInBackground(games);
                 }
             }
@@ -103,7 +103,7 @@ public class Getting {
         locationInfoParseQuery.findInBackground(new FindCallback<LocationInfo>() {
             @Override
             public void done(List<LocationInfo> locationInfos, ParseException e) {
-                if(e == null) {
+                if (e == null) {
                     ParseObject.pinAllInBackground(locationInfos);
                 }
             }
@@ -113,14 +113,18 @@ public class Getting {
         endPointParseQuery.findInBackground(new FindCallback<EndPoint>() {
             @Override
             public void done(List<EndPoint> endPoints, ParseException e) {
-                if(e == null) {
+                if (e == null) {
                     ParseObject.pinAllInBackground(endPoints);
                 }
             }
         });
-
-
     }
+
+        public static LocationInfo getLocationInfoByID(String id) throws ParseException {
+            ParseQuery<LocationInfo> locationInfoParseQuery = LocationInfo.getQuery();
+            LocationInfo locationInfo = locationInfoParseQuery.get(id);
+            return locationInfo;
+        }
 }
 
 

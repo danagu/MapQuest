@@ -37,9 +37,6 @@ public class MapQuestApplication extends Application {
             }
         });
 
-        // Debugging the push!
-        // Save the current Installation to Parse.
-        ParsePush.subscribeInBackground("AHUH");
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 

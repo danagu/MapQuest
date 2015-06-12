@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -98,6 +97,8 @@ public class MainActivity extends Activity {
         Toast.makeText(MainActivity.this, "Got game: " + game.toString(), Toast.LENGTH_LONG).show();
     }
 
+    public void getByIdTest(View view) throws ParseException {
+        Toast.makeText(MainActivity.this, "Got location: " + Getting.getLocationInfoByID("Lx5ruREoOn").toString() , Toast.LENGTH_LONG).show();
     public void testFragment(View view) {
         LayoutInflater layoutInflater
                 = (LayoutInflater)getBaseContext()
