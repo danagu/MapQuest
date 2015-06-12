@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -98,7 +99,10 @@ public class MainActivity extends Activity {
     }
 
     public void getByIdTest(View view) throws ParseException {
-        Toast.makeText(MainActivity.this, "Got location: " + Getting.getLocationInfoByID("Lx5ruREoOn").toString() , Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "Got location: " + Getting.getLocationInfoByID("Lx5ruREoOn").toString(), Toast.LENGTH_LONG).show();
+    }
+
+    
     public void testFragment(View view) {
         LayoutInflater layoutInflater
                 = (LayoutInflater)getBaseContext()
@@ -142,27 +146,5 @@ public class MainActivity extends Activity {
         popupWindow.showAtLocation(view.getRootView(), Gravity.CENTER,0,0);
 
     }
-
-
-                /* ---------- ANDROID WEAR ------------- */
-    /**
-     * Handles the button to launch a notification.
-     */
-    public void showNotification(View view) {
-        Notification notification = new NotificationCompat.Builder(MainActivity.this)//.setSmallIcon(R.drawable.shopli)
-                .setContentTitle("MAPCHA")
-                .setContentText("You have just chased it !! Now solve the quiz :) ")
-                .setSmallIcon(R.drawable.ic_launcher) // addAction
-                .build();
-
-        NotificationManager notificationManger =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManger.notify(0, notification);
-    }
-
-
-
-
 
 }
