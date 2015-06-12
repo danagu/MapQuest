@@ -26,7 +26,7 @@ public class Creating {
 
     public static LocationInfo createNewLocationInfo(double lat, double lon, String quiz, String answer) throws ParseException {
         LocationInfo newLocation = new LocationInfo();
-        newLocation.setLocationInfo(lat, lon, quiz, answer, 0); // TODO: This is default score!
+        newLocation.setLocationInfo(lat, lon, quiz, answer, 0, "description1"); // TODO: This is default score!
         newLocation.pinInBackground();
         return newLocation;
 

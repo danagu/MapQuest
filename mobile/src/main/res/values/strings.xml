@@ -47,4 +47,5 @@
     <string name="placeholder_lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n Quisque vestibulum id justo sit amet porta. Nulla scelerisque pretium neque.\n Mauris augue ante, laoreet quis pulvinar ut, egestas sit amet nibh.</string>
     <string name="send_string">Send</string>
     <string name="placeholder_placeholder_string">Placeholder</string>
+    <string name="GetByIdTest">GetBYIDTest</string>
 </resources>

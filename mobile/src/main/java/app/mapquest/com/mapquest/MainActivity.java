@@ -88,6 +88,10 @@ public class MainActivity extends Activity {
         Toast.makeText(MainActivity.this, "Got game: " + game.toString(), Toast.LENGTH_LONG).show();
     }
 
+    public void getByIdTest(View view) throws ParseException {
+        Toast.makeText(MainActivity.this, "Got location: " + Getting.getLocationInfoByID("Lx5ruREoOn").toString() , Toast.LENGTH_LONG).show();
+    }
+
 
                 /* ---------- ANDROID WEAR ------------- */
     /**
