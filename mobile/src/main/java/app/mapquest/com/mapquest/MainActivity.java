@@ -93,14 +93,7 @@ public class MainActivity extends Activity {
 
     }
 
-    private void testParseData() {
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("daniella", "test");
-        testObject.saveInBackground();
-    }
-
     public void testButton(View view) throws ParseException {
-//        createNewGame();
         Getting.syncLocalDatastoreWithServer();
         printGameInfo();
     }
@@ -115,16 +108,5 @@ public class MainActivity extends Activity {
         Toast.makeText(MainActivity.this, "Got game: " + game.toString(), Toast.LENGTH_LONG).show();
     }
 
-    private void createNewGame() throws ParseException {
-        LinkedList<LocationInfo> locationInfos = new LinkedList<LocationInfo>();
-        LocationInfo locationInfo1 = Creating.createNewLocationInfo(2, 2, "2?", "2!");
-        locationInfos.add(locationInfo1);
-
-        EndPoint endPointOfGame2 = Creating.createNewEndPoint(2.9, 2.9, "EndPointQ", "EndPointA");
-
-        Game game = Creating.createNewGame("Game", locationInfos, endPointOfGame2);
-        game.setEndPoint(endPointOfGame2);
-
-    }
 
 }
