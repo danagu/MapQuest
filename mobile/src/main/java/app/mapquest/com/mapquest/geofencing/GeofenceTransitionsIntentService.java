@@ -105,7 +105,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 Log.e(TAG,"Too many fences hit");
             }
 
-            handleHitLocation(gameName,geofencingEvent.getTriggeringLocation());
+            handleHitLocation(gameName,triggeringGeofences.get(0).getRequestId());
 
 
 
@@ -116,15 +116,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
             // Log the error.
             Log.e(TAG, getString(R.string.geofence_transition_invalid_type, geofenceTransition));
         }
-//        if (ACTION_FOO.equals(action)) {
-//            final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-//            final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-//            handleActionFoo(param1, param2);
-//        } else if (ACTION_BAZ.equals(action)) {
-//            final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-//            final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-//            handleHitLocation(param1, param2);
-//        }
+//
 
     }
 
@@ -132,14 +124,16 @@ public class GeofenceTransitionsIntentService extends IntentService {
      * Handle action Baz in the provided background thread with the provided
      * parameters.
      */
-    private void handleHitLocation(String gameName, Location hit) {
+    private void handleHitLocation(String gameName,String locationID) {
         String currentQuestion;
-        try {
-            currentQuestion = QuizAnswerScoreUtils.getQuizPerLocation(gameName, hit.getLatitude(), hit.getLongitude());
-        } catch (ParseException e) {
-            throw new IllegalArgumentException("Missing game wtf");
-        }
-        sendNotification(currentQuestion);
+
+//        try {
+//            LocationInfo currentLocationInfo = Getting.getGameLocationInfoByID(locationID);
+//            currentQuestion = currentLocationInfo.getQuiz();
+//        } catch (ParseException e) {
+//            throw new IllegalArgumentException("Missing game wtf");
+//        }
+        sendNotification("BLAHBLAHBLAH");
     }
 
 
