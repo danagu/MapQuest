@@ -36,6 +36,7 @@ import app.mapquest.com.mapquest.api.Getting;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
 import app.mapquest.com.mapquest.geofencing.GeofenceMessages;
+import app.mapquest.com.mapquest.geofencing.GeofenceTransitionsIntentService;
 
 public class MapDisplay extends FragmentActivity implements
         OnMapReadyCallback,
@@ -112,7 +113,7 @@ public class MapDisplay extends FragmentActivity implements
     protected void onPause() {
         super.onPause();
         stopLocationUpdates();
-        //removeGeofences();
+        removeGeofences();
         mGoogleApiClient.disconnect();
 
     }
@@ -131,7 +132,7 @@ public class MapDisplay extends FragmentActivity implements
             // Get the status code for the error and log it using a user-friendly message.
             String errorMessage = GeofenceMessages.getErrorString(this,
                     status.getStatusCode());
-            Log.e(TAG, errorMessage);
+            Log.e(TAG, "onResultError:"+errorMessage);
         }
     }
 
@@ -144,7 +145,7 @@ public class MapDisplay extends FragmentActivity implements
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(
                     new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()),
-                    13);
+                    5);
             mMap.moveCamera(cu);
         }
 
@@ -274,14 +275,10 @@ public class MapDisplay extends FragmentActivity implements
 
 
     }
-
-
     //endregion
 
 
     //region Geofences
-
-
     //Create the geofences in google format, from our storage.
     private void createGeoFences()
     {
@@ -295,7 +292,7 @@ public class MapDisplay extends FragmentActivity implements
                 .setCircularRegion(
                         32.265064,
                         34.877173,
-                        1000
+                        50
                 )
                 .setExpirationDuration(Geofence.NEVER_EXPIRE)
                 .setLoiteringDelay(500)
@@ -348,18 +345,18 @@ public class MapDisplay extends FragmentActivity implements
 
     private void loadGeoFences()
     {
-//        LocationServices.GeofencingApi.addGeofences(
-//                mGoogleApiClient,
-//                getGeofencingRequest(),
-//                getGeofencePendingIntent()
-//        ).setResultCallback(this);
+        LocationServices.GeofencingApi.addGeofences(
+                mGoogleApiClient,
+                getGeofencingRequest(),
+                getGeofencePendingIntent()
+        ).setResultCallback(this);
+
     }
 
     private GeofencingRequest getGeofencingRequest() {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
 
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER
-        );
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER      );
         builder.addGeofences(mGeofenceList);
         return builder.build();
     }
@@ -379,12 +376,12 @@ public class MapDisplay extends FragmentActivity implements
         if (mGeofencePendingIntent != null) {
             return mGeofencePendingIntent;
         }
-        //Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
+        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
+        intent.putExtra("GameName",mCurrentGame.getGameName());
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
         // addGeofences() and removeGeofences().
-        //return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        return null;
     }
 
     //endregion
