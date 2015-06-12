@@ -10,6 +10,7 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
+import app.mapquest.com.mapquest.api.Getting;
 import app.mapquest.com.mapquest.data.EndPoint;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
@@ -38,6 +39,7 @@ public class MapQuestApplication extends Application {
         });
 
         ParseInstallation.getCurrentInstallation().saveInBackground();
+        Getting.syncLocalDatastoreWithServer();
     }
 
     private void initializeParse() {
