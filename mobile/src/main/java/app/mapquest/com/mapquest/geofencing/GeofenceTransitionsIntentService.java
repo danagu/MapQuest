@@ -133,7 +133,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
 //        } catch (ParseException e) {
 //            throw new IllegalArgumentException("Missing game wtf");
 //        }
-        sendNotification("BLAHBLAHBLAH");
+        sendNotification(gameName,"BLAHBLAHBLAH");
     }
 
 
@@ -142,16 +142,34 @@ public class GeofenceTransitionsIntentService extends IntentService {
      * Posts a notification in the notification bar when a transition is detected.
      * If the user clicks the notification, control goes to the MainActivity.
      */
-    private void sendNotification(String notificationDetails) {
-        Notification notification = new NotificationCompat.Builder(this)//.setSmallIcon(R.drawable.shopli)
+    private void sendNotification(String gameName,String notificationDetails) {
+        // Create an explicit content Intent that starts the main Activity.
+        Intent notificationIntent = new Intent(getApplicationContext(), MapDisplay.class);
+        notificationIntent.putExtra("GAME",gameName);
+        // Construct a task stack.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
+        // Push the content Intent onto the stack.
+        stackBuilder.addNextIntent(notificationIntent);
+
+        // Get a PendingIntent containing the entire back stack.
+        PendingIntent notificationPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder
                 .setContentTitle("You chased it")
                 .setContentText(notificationDetails)
                 .setSmallIcon(R.drawable.chest_icon) // addAction
-                .build();
+                .setContentIntent(notificationPendingIntent)
+                ;
+        // Dismiss notification once the user touches it.
+        builder.setAutoCancel(true);
+
 
         NotificationManager notificationManger =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManger.notify(0, notification);
+        notificationManger.notify(0, builder.build());
     }
 }
