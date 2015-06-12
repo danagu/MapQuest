@@ -55,7 +55,6 @@
             android:label="@string/title_activity_map_display" >
         </activity>
 
-
         <!-- Push notifications -->
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParseBroadcastReceiver">
@@ -87,6 +86,10 @@
         <!-- replace @drawable/push_icon with your push icon identifier -->
         <!-- meta-data android:name="com.parse.push.notification_icon" android:resource="@drawable/push_icon"/ -->
 
+        <service
+            android:name=".geofencing.GeofenceTransitionsIntentService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>
