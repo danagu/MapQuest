@@ -21,16 +21,26 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import app.mapquest.com.mapquest.api.Getting;
+import app.mapquest.com.mapquest.data.Game;
+import app.mapquest.com.mapquest.data.LocationInfo;
 import app.mapquest.com.mapquest.geofencing.GeofenceTransitionsIntentService;
+
+import static app.mapquest.com.mapquest.api.Getting.*;
 
 public class MapDisplay extends FragmentActivity implements
         OnMapReadyCallback,
@@ -65,6 +75,9 @@ public class MapDisplay extends FragmentActivity implements
     private boolean mResolvingError = false;
 
 
+    //Parse object
+    Game mCurrentGame;
+
     //region basicUIhookups
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +85,21 @@ public class MapDisplay extends FragmentActivity implements
         setContentView(R.layout.activity_map_display);
         buildGoogleApiClient();
 
+        //Get parse data
+        try {
+            String GameName = this.getIntent().getExtras().getString("GAME");
+            mCurrentGame = Getting.getGame(GameName);
+        } catch (ParseException e) {
+             e.printStackTrace();
+        }
+
     }
 
     @Override
     protected void onStart()
     {
         super.onStart();
+        Log.i(TAG, "Connecting to Google API client");
         mGoogleApiClient.connect();
         setUpMapIfNeeded();
 
@@ -199,6 +221,7 @@ public class MapDisplay extends FragmentActivity implements
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
+            Log.i(TAG,"Obtaining Gmap");
             ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMapAsync(this);
         }
@@ -216,12 +239,28 @@ public class MapDisplay extends FragmentActivity implements
 
     public void setUpMap(GoogleMap map) {
         mMap = map;
+        mMap.setMyLocationEnabled(true);
         Log.i(TAG, "Adding game markers");
-        map.addMarker(new MarkerOptions()
-                .position(new LatLng(32.142552, 34.793374)) //Daniels home 32.142552, 34.793374
-                .title("Marker"));
-    }
+        CameraUpdate x;
+        
 
+        //Iterate over all locations
+        List<LocationInfo> locationList = mCurrentGame.getAllGameLocationsInfo();
+        for( LocationInfo l:locationList)
+        {
+            //add each marker
+            map.addMarker(new MarkerOptions()
+                        .position((new LatLng(l.getLat(),l.getLon())))
+                        .title("Map point"));
+        }
+
+        //Add end location
+        map.addMarker(new MarkerOptions()
+                .position((new LatLng(mCurrentGame.getEndPoint().getLocationInfo().getLat(),
+                            mCurrentGame.getEndPoint().getLocationInfo().getLon())))
+                .title("End point"));
+
+    }
     //endregion
 
     //region LOCATIONSENSING
@@ -248,15 +287,12 @@ public class MapDisplay extends FragmentActivity implements
     private void updateLocationUI() {
         double latitude = mLastLocation.getLatitude();
         double longitude = mLastLocation.getLongitude();
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude),3);
+        mMap.moveCamera(cu);
 
     }
 
-
-
-
-
-
-
+    //region CONNNECTIONERROR
     // The rest of this code is all about building the error dialog
 
     /* Creates a dialog for an error message */
@@ -294,26 +330,31 @@ public class MapDisplay extends FragmentActivity implements
         }
     }
     //endregion
+    //endregion
 
 
     //region Geofences
+
+
+    //Create the geofences in google format, from our storage.
     private void createGeoFences()
     {
         Map.Entry entry;
-
+        Log.i(TAG,"Adding geofences");
         mGeofenceList.add(new Geofence.Builder()
                 // Set the request ID of the geofence. This is a string to identify this
                 // geofence.
                 .setRequestId("1")
                         //Daniels home 32.142552, 34.793374
+                        //AIS school 32.265064, 34.877173
                 .setCircularRegion(
-                        32.142552,
-                        34.793374,
-                        150
+                        32.265064,
+                        34.877173,
+                        1000
                 )
                 .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                .setLoiteringDelay(1000)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL)
+                .setLoiteringDelay(500)
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
                 .build());
     }
 
