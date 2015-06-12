@@ -63,7 +63,7 @@ public class MapDisplay extends FragmentActivity implements
         shit for google API
      */
     private GoogleApiClient mGoogleApiClient;
-
+    private Boolean mGoogleAPIClientConnected = false;
 
     //Parse object
     Game mCurrentGame;
@@ -112,10 +112,11 @@ public class MapDisplay extends FragmentActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        stopLocationUpdates();
-        removeGeofences();
+        if (mGoogleAPIClientConnected) {
+            stopLocationUpdates();
+            removeGeofences();
+        }
         mGoogleApiClient.disconnect();
-
     }
 
     @Override
@@ -139,6 +140,7 @@ public class MapDisplay extends FragmentActivity implements
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "Google API client is connected");
+        mGoogleAPIClientConnected = true;
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
@@ -308,7 +310,7 @@ public class MapDisplay extends FragmentActivity implements
             mGeofenceList.add(new Geofence.Builder()
                     // Set the request ID of the geofence. This is a string to identify this
                     // geofence.
-                    .setRequestId(String.valueOf(counter))
+                    .setRequestId(l.getObjectId())
                             //Daniels home 32.142552, 34.793374
                             //AIS school 32.265064, 34.877173
                     .setCircularRegion(
