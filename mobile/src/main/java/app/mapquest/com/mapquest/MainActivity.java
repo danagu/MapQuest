@@ -104,6 +104,8 @@ public class MainActivity extends Activity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManger.notify(0, notification);
+
+        // User pushes on notification
     }
 
 

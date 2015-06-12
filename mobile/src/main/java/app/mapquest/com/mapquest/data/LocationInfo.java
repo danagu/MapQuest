@@ -16,14 +16,16 @@ public class LocationInfo extends ParseObject {
     public static final String QUIZ_KEY = "location_info_quiz";
     public static final String ANSWER_KEY = "location_info_answer";
     public static final String SCORE_KEY = "location_info_score";
+    public static final String DESCRIPTION_KEY = "location_info_description";
 
 
-    public void setLocationInfo(double lat, double lon, String quiz, String answer, int score) {
+    public void setLocationInfo(double lat, double lon, String quiz, String answer, int score, String description) {
         put(POINT_KEY_LAT, lat);
         put(POINT_KEY_LON, lon);
         put(QUIZ_KEY, quiz);
         put(ANSWER_KEY, answer);
         put(SCORE_KEY, score);
+        put(DESCRIPTION_KEY, description);
         saveInBackground();
     }
 
@@ -48,8 +50,17 @@ public class LocationInfo extends ParseObject {
         saveInBackground();
     }
 
+    public void setDescription(String description) {
+        put(DESCRIPTION_KEY, description);
+        saveInBackground();
+    }
+
     public static ParseQuery<LocationInfo> getQuery() {
         return ParseQuery.getQuery(LocationInfo.class);
+    }
+
+    public String getDescription() {
+        return getString(DESCRIPTION_KEY); // fetchInBackground?!
     }
 
     public String getAnswer() {
@@ -71,7 +82,7 @@ public class LocationInfo extends ParseObject {
     @Override
     public String toString() {
         String strRepresentation = "End point: \n";
-        strRepresentation += "lat: " + getLat() + " lon: " + getLon() + " quiz: " + getQuiz() + " answer: " + getAnswer();
+        strRepresentation += "lat: " + getLat() + " lon: " + getLon() + " quiz: " + getQuiz() + " answer: " + getAnswer() + " description: " + getDescription();
         return strRepresentation;
 
     }
