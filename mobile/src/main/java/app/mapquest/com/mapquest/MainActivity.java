@@ -3,6 +3,8 @@ package app.mapquest.com.mapquest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import app.mapquest.com.mapquest.api.Creating;
@@ -20,13 +23,19 @@ import app.mapquest.com.mapquest.data.EndPoint;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
 
+import static app.mapquest.com.mapquest.api.Getting.*;
+
 
 public class MainActivity extends Activity {
 
+
+    private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Getting.syncLocalDatastoreWithServer();
     }
 
     @Override
@@ -45,7 +54,6 @@ public class MainActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            testParseData();
             return true;
         }
 
@@ -58,20 +66,21 @@ public class MainActivity extends Activity {
     /** Called when the user clicks the Send button */
     public void goToGame(View view) {
         Intent intent = new Intent(this, MapDisplay.class);
-        int gameID = 0x415;
-        intent.putExtra("gameID", gameID);
+        Game currentGame;
+        try {
+            currentGame = Getting.getGame("Game");
+        } catch (ParseException e) {
+            Toast.makeText(this.getApplicationContext(),R.string.parse_data_failed,Toast.LENGTH_LONG).show();
+            return;
+        }
+        Log.i(TAG,"TEST");
+        Log.i(TAG, currentGame.getGameName());
+        intent.putExtra("GAME", currentGame.getGameName());
         startActivity(intent);
 
     }
 
-    private void testParseData() {
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("daniella", "test");
-        testObject.saveInBackground();
-    }
-
     public void testButton(View view) throws ParseException {
-//        createNewGame();
         Getting.syncLocalDatastoreWithServer();
         printGameInfo();
     }
@@ -93,17 +102,6 @@ public class MainActivity extends Activity {
         Toast.makeText(MainActivity.this, "Got game: " + game.toString(), Toast.LENGTH_LONG).show();
     }
 
-    private void createNewGame() throws ParseException {
-        LinkedList<LocationInfo> locationInfos = new LinkedList<LocationInfo>();
-        LocationInfo locationInfo1 = Creating.createNewLocationInfo(2, 2, "2?", "2!");
-        locationInfos.add(locationInfo1);
-
-        EndPoint endPointOfGame2 = Creating.createNewEndPoint(2.9, 2.9, "EndPointQ", "EndPointA");
-
-        Game game = Creating.createNewGame("Game", locationInfos, endPointOfGame2);
-        game.setEndPoint(endPointOfGame2);
-
-    }
 
 
 

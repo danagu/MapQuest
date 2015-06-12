@@ -55,7 +55,6 @@
             android:label="@string/title_activity_map_display" >
         </activity>
 
-        <service android:name="app.mapquest.com.mapquest.geofencing.GeofenceTransitionsIntentService"/>
 
         <!-- Push notifications -->
         <service android:name="com.parse.PushService" />
