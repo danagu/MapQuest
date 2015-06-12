@@ -3,6 +3,8 @@ package app.mapquest.com.mapquest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import app.mapquest.com.mapquest.api.Creating;
@@ -20,9 +23,13 @@ import app.mapquest.com.mapquest.data.EndPoint;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
 
+import static app.mapquest.com.mapquest.api.Getting.*;
+
 
 public class MainActivity extends Activity {
 
+
+    private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Enable Local Datastore.
@@ -30,6 +37,8 @@ public class MainActivity extends Activity {
         initializeParse();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Getting.syncLocalDatastoreWithServer();
     }
 
     private void initializeParse() {
@@ -58,7 +67,6 @@ public class MainActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            testParseData();
             return true;
         }
 
@@ -71,8 +79,16 @@ public class MainActivity extends Activity {
     /** Called when the user clicks the Send button */
     public void goToGame(View view) {
         Intent intent = new Intent(this, MapDisplay.class);
-        int gameID = 0x415;
-        intent.putExtra("gameID", gameID);
+        Game currentGame;
+        try {
+            currentGame = Getting.getGame("Game");
+        } catch (ParseException e) {
+            Toast.makeText(this.getApplicationContext(),R.string.parse_data_failed,Toast.LENGTH_LONG).show();
+            return;
+        }
+        Log.i(TAG,"TEST");
+        Log.i(TAG, currentGame.getGameName());
+        intent.putExtra("GAME", currentGame.getGameName());
         startActivity(intent);
 
     }
