@@ -34,6 +34,6 @@
         android:text="@string/GetByIdTest"
         android:onClick="getByIdTest"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/button3" />
+        android:layout_alignStart="@+id/button4" />
 
 </RelativeLayout>
