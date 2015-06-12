@@ -30,16 +30,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button3"
-        android:text="@string/NotificationTest"
-        android:onClick="showNotification"
-        android:layout_below="@+id/button2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/button4"
         android:text="@string/GetByIdTest"
         android:onClick="getByIdTest"
