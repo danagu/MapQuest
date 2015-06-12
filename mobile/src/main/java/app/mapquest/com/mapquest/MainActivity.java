@@ -1,18 +1,28 @@
 package app.mapquest.com.mapquest;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import android.view.ViewGroup.LayoutParams;
 import com.parse.ParseException;
 
 import app.mapquest.com.mapquest.api.Getting;
@@ -88,6 +98,50 @@ public class MainActivity extends Activity {
         Toast.makeText(MainActivity.this, "Got game: " + game.toString(), Toast.LENGTH_LONG).show();
     }
 
+    public void testFragment(View view) {
+        LayoutInflater layoutInflater
+                = (LayoutInflater)getBaseContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View popupView = layoutInflater.inflate(R.layout.activity_question_answer_popup, null);
+        final PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT);
+
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+
+        TextView chestDescription = (TextView)popupView.findViewById(R.id.chest_description_lbl);
+        chestDescription.setText("chest Description");
+        TextView questionDescription = (TextView)popupView.findViewById(R.id.quizTextLbl);
+        chestDescription.setText("Count the internet");
+
+        Button sendBtn = (Button)popupView.findViewById(R.id.sendBtn);
+        sendBtn.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                TextView answerTxtView = (EditText) popupView.findViewById(R.id.answerTxtView);
+                String answerText = answerTxtView.getText().toString().trim();
+                if (answerText.equalsIgnoreCase("45")) {
+                    Log.i(TAG, "Right answer");
+                    //Toast.makeText(getCallingActivity(), "YOU WIN", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.i(TAG, "wrong answer");
+                    //Toast.makeText(getCallingActivity(), R.string.wrong_answer, Toast.LENGTH_LONG).show();
+                }
+                popupWindow.dismiss();
+            }
+        });
+
+        popupWindow.showAtLocation(view.getRootView(), Gravity.CENTER,0,0);
+
+    }
+
 
                 /* ---------- ANDROID WEAR ------------- */
     /**
@@ -107,20 +161,7 @@ public class MainActivity extends Activity {
     }
 
 
-    /* -- Deprecated server notification -- */
-//    public void createPushNotification(View view) {
-//        Log.i(TAG, "Inside get push");
-//        ParsePush push = new ParsePush();
-//        push.setChannel("");
-//        push.setMessage("You have just chased it !! Now solve the quiz :) ");
-//        try {
-//            Log.i(TAG, "SENT THE MESSAGE");
-//            push.send(); // TODO: Send immediately for demo!
-//        } catch (ParseException e) {
-//            Log.e(TAG, "COULDN'T SEND THE MESSAGE!");
-//            e.printStackTrace();
-//        }
-//    }
+
 
 
 }
