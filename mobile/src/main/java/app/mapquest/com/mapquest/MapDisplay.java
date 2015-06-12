@@ -1,15 +1,13 @@
 package app.mapquest.com.mapquest;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.PendingIntent;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -37,6 +35,7 @@ import java.util.Map;
 import app.mapquest.com.mapquest.api.Getting;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
+import app.mapquest.com.mapquest.geofencing.GeofenceMessages;
 
 public class MapDisplay extends FragmentActivity implements
         OnMapReadyCallback,
@@ -63,12 +62,6 @@ public class MapDisplay extends FragmentActivity implements
         shit for google API
      */
     private GoogleApiClient mGoogleApiClient;
-    // Request code to use when launching the resolution activity
-    private static final int REQUEST_RESOLVE_ERROR = 1001;
-    // Unique tag for the error dialog fragment
-    private static final String DIALOG_ERROR = "dialog_error";
-    // Bool to track whether the app is already resolving an error
-    private boolean mResolvingError = false;
 
 
     //Parse object
@@ -89,21 +82,25 @@ public class MapDisplay extends FragmentActivity implements
              e.printStackTrace();
         }
 
+        createGeoFences();
     }
 
     @Override
     protected void onStart()
     {
+
         super.onStart();
         Log.i(TAG, "Connecting to Google API client");
         mGoogleApiClient.connect();
         setUpMapIfNeeded();
+
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i(TAG,"onResume happened");
         setUpMapIfNeeded();
         mGoogleApiClient.connect();
         if (mGoogleApiClient.isConnected() && !mRequestingLocationUpdates) {
@@ -115,28 +112,27 @@ public class MapDisplay extends FragmentActivity implements
     protected void onPause() {
         super.onPause();
         stopLocationUpdates();
+        //removeGeofences();
         mGoogleApiClient.disconnect();
 
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_RESOLVE_ERROR) {
-            mResolvingError = false;
-            if (resultCode == RESULT_OK) {
-                // Make sure the app is not already connected or attempting to connect
-                if (!mGoogleApiClient.isConnecting() &&
-                        !mGoogleApiClient.isConnected()) {
-                    mGoogleApiClient.connect();
-                }
-            }
-        }
-    }
-
-    @Override
     public void onResult(Status status) {
-    Status localstatus = status;
-    Log.i(TAG, "onResult??Why is this popping up");
+        if (status.isSuccess()) {
+
+
+            Toast.makeText(
+                    this,
+                    "Added or removed geofences",
+                    Toast.LENGTH_SHORT
+            ).show();
+        } else {
+            // Get the status code for the error and log it using a user-friendly message.
+            String errorMessage = GeofenceMessages.getErrorString(this,
+                    status.getStatusCode());
+            Log.e(TAG, errorMessage);
+        }
     }
 
     @Override
@@ -145,12 +141,10 @@ public class MapDisplay extends FragmentActivity implements
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
-            double latitude = mLastLocation.getLatitude();
-            double longitude = mLastLocation.getLongitude();
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(location.getLatitude(), location.getLongitude()),
-                    12);
+                    new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()),
+                    13);
             mMap.moveCamera(cu);
         }
 
@@ -167,30 +161,18 @@ public class MapDisplay extends FragmentActivity implements
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
-        Log.i(TAG, "Google API connection suspended");
+    public void onConnectionSuspended(int cause) {
+        // The connection to Google Play services was lost for some reason.
+        Log.i(TAG, "Connection suspended");
 
+        // onConnected() will be called again automatically when the service reconnects
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        Log.i(TAG, "Google API connection has failed");
-        if (mResolvingError) {
-            // Already attempting to resolve an error.
-            return;
-        } else if (result.hasResolution()) {
-            try {
-                mResolvingError = true;
-                result.startResolutionForResult(this, REQUEST_RESOLVE_ERROR);
-            } catch (IntentSender.SendIntentException e) {
-                // There was an error with the resolution intent. Try again.
-                mGoogleApiClient.connect();
-            }
-        } else {
-            // Show dialog using GooglePlayServicesUtil.getErrorDialog()
-            showErrorDialog(result.getErrorCode());
-            mResolvingError = true;
-        }
+        // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
+        // onConnectionFailed.
+        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
 
     //endregion
@@ -287,50 +269,13 @@ public class MapDisplay extends FragmentActivity implements
                 mGoogleApiClient, this);
     }
     private void updateLocationUI() {
-        double latitude = mLastLocation.getLatitude();
-        double longitude = mLastLocation.getLongitude();
+        //double latitude = mLastLocation.getLatitude();
+        //double longitude = mLastLocation.getLongitude();
 
 
     }
 
-    //region CONNNECTIONERROR
-    // The rest of this code is all about building the error dialog
 
-    /* Creates a dialog for an error message */
-    private void showErrorDialog(int errorCode) {
-        // Create a fragment for the error dialog
-        ErrorDialogFragment dialogFragment = new ErrorDialogFragment();
-        // Pass the error that should be displayed
-        Bundle args = new Bundle();
-        args.putInt(DIALOG_ERROR, errorCode);
-        dialogFragment.setArguments(args);
-
-        //dialogFragment.show(getSupportFragmentManager(), "errordialog");
-    }
-
-    /* Called from ErrorDialogFragment when the dialog is dismissed. */
-    public void onDialogDismissed() {
-        mResolvingError = false;
-    }
-
-    /* A fragment to display an error dialog */
-    public static class ErrorDialogFragment extends DialogFragment {
-        public ErrorDialogFragment() { }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Get the error code and retrieve the appropriate dialog
-            int errorCode = this.getArguments().getInt(DIALOG_ERROR);
-            return GooglePlayServicesUtil.getErrorDialog(errorCode,
-                    this.getActivity(), REQUEST_RESOLVE_ERROR);
-        }
-
-        @Override
-        public void onDismiss(DialogInterface dialog) {
-            ((MapDisplay)getActivity()).onDialogDismissed();
-        }
-    }
-    //endregion
     //endregion
 
 
@@ -340,7 +285,6 @@ public class MapDisplay extends FragmentActivity implements
     //Create the geofences in google format, from our storage.
     private void createGeoFences()
     {
-        Map.Entry entry;
         Log.i(TAG,"Adding geofences");
         mGeofenceList.add(new Geofence.Builder()
                 // Set the request ID of the geofence. This is a string to identify this
@@ -404,17 +348,18 @@ public class MapDisplay extends FragmentActivity implements
 
     private void loadGeoFences()
     {
-        LocationServices.GeofencingApi.addGeofences(
-                mGoogleApiClient,
-                getGeofencingRequest(),
-                getGeofencePendingIntent()
-        ).setResultCallback(this);
+//        LocationServices.GeofencingApi.addGeofences(
+//                mGoogleApiClient,
+//                getGeofencingRequest(),
+//                getGeofencePendingIntent()
+//        ).setResultCallback(this);
     }
 
     private GeofencingRequest getGeofencingRequest() {
-        createGeoFences();
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_DWELL);
+
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER
+        );
         builder.addGeofences(mGeofenceList);
         return builder.build();
     }
@@ -434,6 +379,11 @@ public class MapDisplay extends FragmentActivity implements
         if (mGeofencePendingIntent != null) {
             return mGeofencePendingIntent;
         }
+        //Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
+        // addGeofences() and removeGeofences().
+        //return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         return null;
     }
 

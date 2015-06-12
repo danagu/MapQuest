@@ -19,6 +19,7 @@ package app.mapquest.com.mapquest.geofencing;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
 
 import app.mapquest.com.mapquest.R;
@@ -26,11 +27,32 @@ import app.mapquest.com.mapquest.R;
 /**
  * Geofence error codes mapped to error messages.
  */
-public class GeofenceErrorMessages {
+public class GeofenceMessages {
     /**
      * Prevents instantiation.
      */
-    private GeofenceErrorMessages() {}
+    private GeofenceMessages() {}
+
+
+    /**
+     * Maps geofence transition types to their human-readable equivalents.
+     *
+     * @param transitionType    A transition type constant defined in Geofence
+     * @return                  A String indicating the type of transition
+     */
+    private String getTransitionString(int transitionType) {
+        switch (transitionType) {
+            case Geofence.GEOFENCE_TRANSITION_ENTER:
+                return "Entered";
+            case Geofence.GEOFENCE_TRANSITION_EXIT:
+                return "Exited";
+            case Geofence.GEOFENCE_TRANSITION_DWELL:
+                return "Dwelled";
+            default:
+                return "Unknown transition";
+        }
+    }
+
 
     /**
      * Returns the error string for a geofencing error code.
