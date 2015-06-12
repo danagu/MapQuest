@@ -1,0 +1,96 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/chest_win">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="373dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_gravity="top">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/chest_icon"
+                android:src="@drawable/chest_icon"
+                android:layout_gravity="left|center"
+                android:layout_margin="5dp"
+                android:minHeight="45dp"
+                android:minWidth="45dp" />
+
+            <TextView
+                android:id="@+id/chest_description_lbl"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:contentDescription="@string/chest_description"
+                android:text="@string/placeholder_placeholder_string"
+                android:layout_weight="4"
+                android:textColor="#ffffffff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/quizTextLbl"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/quiz_text_lbl"
+                android:layout_weight="1"
+                android:text="@string/placeholder_lorem_ipsum"/>
+
+            <ImageView
+                android:layout_width="107dp"
+                android:layout_height="200dp"
+                android:gravity="center"
+                android:contentDescription="@string/leader_icon"
+                android:src="@drawable/leaderboard_icon" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="373dp"
+            android:layout_height="205dp"
+            android:layout_gravity="center_horizontal"
+            >
+
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="137dp"
+                android:inputType="textMultiLine"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/fill_answer_here"
+                android:background="#ffffffff"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:ems="10"
+                android:id="@+id/answerTxtView" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/send_string"
+                android:id="@+id/sendBtn"
+                android:layout_gravity="center"
+                android:clickable="true"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

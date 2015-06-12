@@ -49,6 +49,7 @@
     <string name="placeholder_placeholder_string">Placeholder</string>
     <string name="GetByIdTest">GetBYIDTest</string>
 
+
     <!-- login and signup shit -->
     <string name="title_activity_login">Log in</string>
     <string name="title_activity_signup">Sign up</string>
@@ -66,4 +67,6 @@
 
     <string name="login">Log in</string>
     <string name="signup">Sign up</string>
+
+    <string name="title_activity_question_answer_popup">QuestionAnswerPopup</string>
 </resources>
