@@ -85,6 +85,7 @@ public class MainActivity extends Activity {
 
     public void testButton(View view) throws ParseException {
 //        createNewGame();
+        Getting.syncLocalDatastoreWithServer();
         printGameInfo();
     }
 

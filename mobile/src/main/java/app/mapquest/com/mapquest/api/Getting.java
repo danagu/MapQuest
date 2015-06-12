@@ -1,5 +1,6 @@
 package app.mapquest.com.mapquest.api;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -85,6 +86,40 @@ public class Getting {
         EndPoint endPoint = game.getEndPoint();
         endPoint.pinInBackground();
         return endPoint.getLocationInfo();
+    }
+
+    public static void syncLocalDatastoreWithServer() {
+        ParseQuery<Game> gameParseQuery = Game.getQuery();
+        gameParseQuery.findInBackground(new FindCallback<Game>() {
+            @Override
+            public void done(List<Game> games, ParseException e) {
+                if(e == null) {
+                    ParseObject.pinAllInBackground(games);
+                }
+            }
+        });
+
+        ParseQuery<LocationInfo> locationInfoParseQuery = LocationInfo.getQuery();
+        locationInfoParseQuery.findInBackground(new FindCallback<LocationInfo>() {
+            @Override
+            public void done(List<LocationInfo> locationInfos, ParseException e) {
+                if(e == null) {
+                    ParseObject.pinAllInBackground(locationInfos);
+                }
+            }
+        });
+
+        ParseQuery<EndPoint> endPointParseQuery = EndPoint.getEndPointQuery();
+        endPointParseQuery.findInBackground(new FindCallback<EndPoint>() {
+            @Override
+            public void done(List<EndPoint> endPoints, ParseException e) {
+                if(e == null) {
+                    ParseObject.pinAllInBackground(endPoints);
+                }
+            }
+        });
+
+
     }
 }
 
