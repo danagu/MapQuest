@@ -3,7 +3,6 @@ package app.mapquest.com.mapquest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,19 +10,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParsePush;
 
-import java.io.Serializable;
-import java.util.LinkedList;
-
-import app.mapquest.com.mapquest.api.Creating;
 import app.mapquest.com.mapquest.api.Getting;
-import app.mapquest.com.mapquest.data.EndPoint;
 import app.mapquest.com.mapquest.data.Game;
-import app.mapquest.com.mapquest.data.LocationInfo;
-
-import static app.mapquest.com.mapquest.api.Getting.*;
 
 
 public class MainActivity extends Activity {
@@ -87,7 +77,7 @@ public class MainActivity extends Activity {
 
     public void createPushNotification(View view) {
         ParsePush push = new ParsePush();
-        push.setChannel("AHUH");
+        push.setChannel("");
         push.setMessage("The Giants just scored! It's now 2-2 against the Mets.");
         push.sendInBackground();
     }
