@@ -23,6 +23,7 @@
     <string name="geofence_transition_invalid_type">
         Geofence transition error: invalid transition type %1$d
     </string>
+    <string name="parse_data_failed">Failed to pull data from server</string>
 
     <!-- Transition type strings -->
     <string name="geofence_transition_entered">Entered</string>
