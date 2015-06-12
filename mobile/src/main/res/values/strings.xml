@@ -9,6 +9,13 @@
     <string name="CreateNewLocation">CreateNewLocationTest</string>
     <string name="CreateNewGameTest">TestCreateNewGame</string>
 
+    <string name="wrong_answer">Wrong answer,try again</string>
+
+    <!-- Descriptors -->
+    <string name="chest_icon">Chest Icon</string>
+    <string name="leader_icon">Leaderboard Icon</string>
+    <string name="chest_description">Chest description</string>
+    <string name="quiz_text_lbl">Quiz text label</string>
 
     <!-- Error strings -->
     <string name="not_connected">GoogleApiClient no yet connected. Try again.</string>
@@ -33,4 +40,11 @@
 
     <string name="geofence_transition_notification_text">Click notification to return to app</string>
     <string name="NotificationTest">NotificationTest</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fill_answer_here">Fill answer here</string>
+    <string name="placeholder_lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n Quisque vestibulum id justo sit amet porta. Nulla scelerisque pretium neque.\n Mauris augue ante, laoreet quis pulvinar ut, egestas sit amet nibh.</string>
+    <string name="send_string">Send</string>
+    <string name="placeholder_placeholder_string">Placeholder</string>
 </resources>
