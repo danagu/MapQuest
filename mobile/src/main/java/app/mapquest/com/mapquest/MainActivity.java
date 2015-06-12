@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 
 import java.util.LinkedList;
 
@@ -75,6 +76,13 @@ public class MainActivity extends Activity {
         printGameInfo();
     }
 
+    public void createPushNotification(View view) {
+        ParsePush push = new ParsePush();
+        push.setChannel("AHUH");
+        push.setMessage("The Giants just scored! It's now 2-2 against the Mets.");
+        push.sendInBackground();
+    }
+
 
     /**
      * TESTS AND USAGE ****
@@ -96,5 +104,7 @@ public class MainActivity extends Activity {
         game.setEndPoint(endPointOfGame2);
 
     }
+
+
 
 }
