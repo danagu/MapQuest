@@ -7,16 +7,22 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.Context;
+import android.location.Location;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingApi;
 import com.google.android.gms.location.GeofencingEvent;
+import com.parse.ParseException;
 
 import java.util.List;
 
 import app.mapquest.com.mapquest.MapDisplay;
 import app.mapquest.com.mapquest.R;
+import app.mapquest.com.mapquest.api.Getting;
+import app.mapquest.com.mapquest.api.QuizAnswerScoreUtils;
+import app.mapquest.com.mapquest.data.LocationInfo;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -74,7 +80,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         if (intent == null) {
             Log.e(TAG,"Broken intent!");
         }
-
+        String gameName = intent.getStringExtra("GameName");
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         if (geofencingEvent.hasError()) {
             String errorMessage = GeofenceMessages.getErrorString(this,
@@ -99,7 +105,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 Log.e(TAG,"Too many fences hit");
             }
 
-            handleHitLocation(triggeringGeofences.get(0));
+            handleHitLocation(gameName,geofencingEvent.getTriggeringLocation());
 
 
 
@@ -126,8 +132,14 @@ public class GeofenceTransitionsIntentService extends IntentService {
      * Handle action Baz in the provided background thread with the provided
      * parameters.
      */
-    private void handleHitLocation(Geofence hitLocation) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private void handleHitLocation(String gameName, Location hit) {
+        String currentQuestion;
+        try {
+            currentQuestion = QuizAnswerScoreUtils.getQuizPerLocation(gameName, hit.getLatitude(), hit.getLongitude());
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Missing game wtf");
+        }
+        sendNotification(currentQuestion);
     }
 
 
@@ -138,9 +150,9 @@ public class GeofenceTransitionsIntentService extends IntentService {
      */
     private void sendNotification(String notificationDetails) {
         Notification notification = new NotificationCompat.Builder(this)//.setSmallIcon(R.drawable.shopli)
-                .setContentTitle("MAPCHA")
-                .setContentText("You have just chased it !! Now solve the quiz :) ")
-                .setSmallIcon(R.drawable.ic_launcher) // addAction
+                .setContentTitle("You chased it")
+                .setContentText(notificationDetails)
+                .setSmallIcon(R.drawable.chest_icon) // addAction
                 .build();
 
         NotificationManager notificationManger =
