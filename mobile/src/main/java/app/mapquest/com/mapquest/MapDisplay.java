@@ -1,12 +1,23 @@
 package app.mapquest.com.mapquest;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -44,6 +55,9 @@ public class MapDisplay extends FragmentActivity implements
         ResultCallback<Status> {
 
     private static final String TAG = "MapDisplayActivity";
+    public static final String GAME_ARG = "GAME";
+    public static final String LOC_ARG = "LocID";
+    public static final String END_ARG = "endpoint";
 
     //Map stuff
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -58,7 +72,6 @@ public class MapDisplay extends FragmentActivity implements
     //Geofences
     private ArrayList mGeofenceList = new ArrayList<>(50);
     private PendingIntent mGeofencePendingIntent = null;
-
     /*
         shit for google API
      */
@@ -67,6 +80,8 @@ public class MapDisplay extends FragmentActivity implements
 
     //Parse object
     Game mCurrentGame;
+    LocationInfo mLocationInfo = null;
+    boolean mEndGame = false;
 
     //region basicUIhookups
     @Override
@@ -77,12 +92,27 @@ public class MapDisplay extends FragmentActivity implements
 
         //Get parse data
         try {
-            String GameName = this.getIntent().getExtras().getString("GAME");
+            String GameName = this.getIntent().getExtras().getString(GAME_ARG);
             mCurrentGame = Getting.getGame(GameName);
         } catch (ParseException e) {
              e.printStackTrace();
         }
 
+        //If we have an intent with locationID, we're coming in from notification and time to show
+        // 1. Q&A fragment
+        // 2. End game fragment
+        String locationID = this.getIntent().getExtras().getString(LOC_ARG);
+        if (locationID != null) try {
+            if (this.getIntent().getExtras().getBoolean(END_ARG)) {
+                mEndGame = true;
+            } else {
+                //Q&A
+                mLocationInfo = Getting.getLocationInfoByID(locationID);
+
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         createGeoFences();
     }
 
@@ -91,10 +121,15 @@ public class MapDisplay extends FragmentActivity implements
     {
 
         super.onStart();
+
         Log.i(TAG, "Connecting to Google API client");
         mGoogleApiClient.connect();
         setUpMapIfNeeded();
 
+        if (mEndGame) {
+        } else if (null != mLocationInfo) {
+            displayQuestion(mLocationInfo);
+        }
 
     }
 
@@ -209,7 +244,7 @@ public class MapDisplay extends FragmentActivity implements
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
             Log.i(TAG,"Obtaining Gmap");
-            ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+            ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapDisplay))
                     .getMapAsync(this);
         }
     }
@@ -385,6 +420,53 @@ public class MapDisplay extends FragmentActivity implements
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
     }
-
     //endregion
+
+    //region Q&Afragment
+    public void displayQuestion(final LocationInfo quizInfo) {
+        LayoutInflater layoutInflater
+                = (LayoutInflater)getBaseContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View popupView = layoutInflater.inflate(R.layout.activity_question_answer_popup, null);
+        final PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+
+        TextView chestDescription = (TextView)popupView.findViewById(R.id.chest_description_lbl);
+        chestDescription.setText("chest Description");
+        TextView questionDescription = (TextView)popupView.findViewById(R.id.quizTextLbl);
+        questionDescription.setText(quizInfo.getQuiz());
+
+        Button sendBtn = (Button)popupView.findViewById(R.id.sendBtn);
+        sendBtn.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                TextView answerTxtView = (EditText) popupView.findViewById(R.id.answerTxtView);
+                String answerText = answerTxtView.getText().toString().trim();
+                if (answerText.equalsIgnoreCase(quizInfo.getAnswer())) {
+                    Log.i(TAG, "Right answer");
+                    //Toast.makeText(getCallingActivity(), "YOU WIN", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.i(TAG, "wrong answer");
+                    //Toast.makeText(getCallingActivity(), R.string.wrong_answer, Toast.LENGTH_LONG).show();
+                }
+                popupWindow.dismiss();
+            }
+        });
+        findViewById(R.id.mapDisplay).post(new Runnable() {
+            public void run() {
+                popupWindow.showAtLocation(findViewById(R.id.mapDisplay), Gravity.CENTER, 0, 0);
+            }
+
+        });
+    }
 }
