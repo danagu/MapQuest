@@ -27,7 +27,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseException;
 
@@ -38,9 +37,6 @@ import java.util.Map;
 import app.mapquest.com.mapquest.api.Getting;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
-import app.mapquest.com.mapquest.geofencing.GeofenceTransitionsIntentService;
-
-import static app.mapquest.com.mapquest.api.Getting.*;
 
 public class MapDisplay extends FragmentActivity implements
         OnMapReadyCallback,
@@ -140,7 +136,7 @@ public class MapDisplay extends FragmentActivity implements
     @Override
     public void onResult(Status status) {
     Status localstatus = status;
-    Log.i(TAG, "onResult??");
+    Log.i(TAG, "onResult??Why is this popping up");
     }
 
     @Override
@@ -151,7 +147,13 @@ public class MapDisplay extends FragmentActivity implements
         if (mLastLocation != null) {
             double latitude = mLastLocation.getLatitude();
             double longitude = mLastLocation.getLongitude();
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(location.getLatitude(), location.getLongitude()),
+                    12);
+            mMap.moveCamera(cu);
         }
+
         if (mRequestingLocationUpdates) {
             startLocationUpdates();
         }
@@ -240,10 +242,10 @@ public class MapDisplay extends FragmentActivity implements
     public void setUpMap(GoogleMap map) {
         mMap = map;
         mMap.setMyLocationEnabled(true);
-        Log.i(TAG, "Adding game markers");
-        CameraUpdate x;
-        
 
+
+
+        Log.i(TAG, "Adding game markers");
         //Iterate over all locations
         List<LocationInfo> locationList = mCurrentGame.getAllGameLocationsInfo();
         for( LocationInfo l:locationList)
@@ -287,8 +289,7 @@ public class MapDisplay extends FragmentActivity implements
     private void updateLocationUI() {
         double latitude = mLastLocation.getLatitude();
         double longitude = mLastLocation.getLongitude();
-        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude),3);
-        mMap.moveCamera(cu);
+
 
     }
 
@@ -356,6 +357,49 @@ public class MapDisplay extends FragmentActivity implements
                 .setLoiteringDelay(500)
                 .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
                 .build());
+
+
+        List<LocationInfo> locationList = mCurrentGame.getAllGameLocationsInfo();
+        int counter = 1;
+        for( LocationInfo l:locationList)
+        {
+            //add each marker
+            mGeofenceList.add(new Geofence.Builder()
+                    // Set the request ID of the geofence. This is a string to identify this
+                    // geofence.
+                    .setRequestId(String.valueOf(counter))
+                            //Daniels home 32.142552, 34.793374
+                            //AIS school 32.265064, 34.877173
+                    .setCircularRegion(
+                            l.getLat(),
+                            l.getLon(),
+                            250
+                    )
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                    .setLoiteringDelay(500)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                    .build());
+            counter++;
+        }
+
+        //Add end location
+        mGeofenceList.add(
+                new Geofence.Builder()
+                        // Set the request ID of the geofence. This is a string to identify this
+                        // geofence.
+                        .setRequestId("endpoint")
+                                //Daniels home 32.142552, 34.793374
+                                //AIS school 32.265064, 34.877173
+                                .setCircularRegion(
+                                        mCurrentGame.getEndPoint().getLocationInfo().getLat(),
+                                        mCurrentGame.getEndPoint().getLocationInfo().getLon(),
+                                        250
+                                )
+                                .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                                .setLoiteringDelay(500)
+                                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                                .build());
+
     }
 
     private void loadGeoFences()
@@ -390,11 +434,7 @@ public class MapDisplay extends FragmentActivity implements
         if (mGeofencePendingIntent != null) {
             return mGeofencePendingIntent;
         }
-        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
-        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
-        // calling addGeofences() and removeGeofences().
-        return PendingIntent.getService(this, 0, intent, PendingIntent.
-                FLAG_UPDATE_CURRENT);
+        return null;
     }
 
     //endregion
