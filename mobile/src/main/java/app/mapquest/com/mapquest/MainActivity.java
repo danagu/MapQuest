@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 
@@ -32,24 +31,11 @@ public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-        initializeParse();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Getting.syncLocalDatastoreWithServer();
     }
-
-    private void initializeParse() {
-        Parse.initialize(this, "GM7cHc32GFCgAwthzFbpc3X1iSZBbXfYzQrLMgbP", "UK7QTonPXE3j6IBt5DIOd4E10KWBAc64l3XYTz9l");
-
-        // Can save in local datastore: pinInBackground()
-        ParseObject.registerSubclass(EndPoint.class);
-        ParseObject.registerSubclass(Game.class);
-        ParseObject.registerSubclass(LocationInfo.class);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
