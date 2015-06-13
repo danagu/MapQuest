@@ -72,4 +72,8 @@
     <string name="TestCount">TestCount</string>
     <string name="total_chests">Total Chests : </string>
     <string name="my_chases">My Chases</string>
+    <string name="log_in_resource">LOG IN</string>
+    <string name="sign_up_string">SIGN UP</string>
+    <string name="chase_em_string">Chase\'m!</string>
+    <string name="enter_a_chase_name_string">Enter a chase name</string>
 </resources>
