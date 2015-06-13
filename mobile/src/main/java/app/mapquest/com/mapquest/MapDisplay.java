@@ -33,6 +33,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseException;
@@ -277,8 +278,9 @@ public class MapDisplay extends FragmentActivity implements
         {
             //add each marker
             map.addMarker(new MarkerOptions()
-                        .position((new LatLng(l.getLat(),l.getLon())))
-                        .title("Map point"));
+                    .position((new LatLng(l.getLat(), l.getLon())))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.mapchest_icon))
+                    .title("Map point"));
         }
 
         //Add end location
@@ -456,7 +458,6 @@ public class MapDisplay extends FragmentActivity implements
                 } else {
                     Log.i(TAG, "wrong answer");
                     Toast.makeText(v.getContext(), "Wrong answer!\nTry Again", Toast.LENGTH_LONG).show();
-                    //Toast.makeText(getCallingActivity(), R.string.wrong_answer, Toast.LENGTH_LONG).show();
                 }
                 popupWindow.dismiss();
             }
