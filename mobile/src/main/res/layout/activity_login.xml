@@ -34,7 +34,8 @@
                 android:layout_marginRight="20dp"
                 android:background="#E3E3E3"
                 android:layout_width="fill_parent"
-                android:layout_height="230dp">
+                android:layout_height="230dp"
+                android:layout_marginTop="-30dp">
 
 
                 <EditText
@@ -83,7 +84,12 @@
                     android:text="@string/login" />
             </LinearLayout>
 
-
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="75dp"
+                android:gravity="center"
+                android:src="@drawable/chest_icon_red_shade"
+                android:layout_marginTop="20dp" />
             </LinearLayout>
 
 
