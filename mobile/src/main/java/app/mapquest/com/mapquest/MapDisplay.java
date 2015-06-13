@@ -499,6 +499,7 @@ public class MapDisplay extends FragmentActivity implements
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setFocusable(true);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 
         TextView pointTxtView = (TextView)popupView.findViewById(R.id.pointCountLbl);
