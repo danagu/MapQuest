@@ -1,9 +1,12 @@
 package app.mapquest.com.mapquest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
@@ -35,6 +38,18 @@ public class SearchActivity extends ActionBarActivity {
         findViewById(R.id.searchPageGoBtn).setOnClickListener(createGoButtonListener());
         // Get a reference to the AutoCompleteTextView in the layout
         textView = (AutoCompleteTextView) findViewById(R.id.searchGame);
+
+
+        textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                in.hideSoftInputFromWindow(arg1.getWindowToken(), 0);
+
+            }
+
+        });
 
         // Get the string array
         String[] gamesAutoComplete = getAllGamesForAutoComplete();
