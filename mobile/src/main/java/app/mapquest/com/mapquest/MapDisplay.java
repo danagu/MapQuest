@@ -1,6 +1,8 @@
 package app.mapquest.com.mapquest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -44,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import app.mapquest.com.mapquest.api.Getting;
+import app.mapquest.com.mapquest.api.ScoresUtils;
 import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.LocationInfo;
 import app.mapquest.com.mapquest.geofencing.GeofenceMessages;
@@ -80,6 +83,7 @@ public class MapDisplay extends FragmentActivity implements
 
     //Parse object
     Game mCurrentGame;
+    int mCurrentScore;
     LocationInfo mLocationInfo = null;
     boolean mEndGame = false;
 
@@ -94,6 +98,7 @@ public class MapDisplay extends FragmentActivity implements
         try {
             String GameName = this.getIntent().getExtras().getString(GAME_ARG);
             mCurrentGame = Getting.getGame(GameName);
+            mCurrentScore = ScoresUtils.getCurrentUsersScore();
         } catch (ParseException e) {
              e.printStackTrace();
         }
@@ -121,7 +126,8 @@ public class MapDisplay extends FragmentActivity implements
     {
 
         super.onStart();
-
+        TextView scoreTxtView = (TextView) findViewById(R.id.scoreTxtView);
+        scoreTxtView.setText(String.valueOf(mCurrentScore));
         Log.i(TAG, "Connecting to Google API client");
         mGoogleApiClient.connect();
         setUpMapIfNeeded();
@@ -168,7 +174,7 @@ public class MapDisplay extends FragmentActivity implements
             // Get the status code for the error and log it using a user-friendly message.
             String errorMessage = GeofenceMessages.getErrorString(this,
                     status.getStatusCode());
-            Log.e(TAG, "onResultError:"+errorMessage);
+            Log.e(TAG, "onResultError:" + errorMessage);
         }
     }
 
@@ -279,7 +285,7 @@ public class MapDisplay extends FragmentActivity implements
         //Add end location
         map.addMarker(new MarkerOptions()
                 .position((new LatLng(mCurrentGame.getEndPoint().getLocationInfo().getLat(),
-                            mCurrentGame.getEndPoint().getLocationInfo().getLon())))
+                        mCurrentGame.getEndPoint().getLocationInfo().getLon())))
                 .title("End point"));
 
     }
@@ -320,21 +326,9 @@ public class MapDisplay extends FragmentActivity implements
     private void createGeoFences()
     {
         Log.i(TAG,"Adding geofences");
-        mGeofenceList.add(new Geofence.Builder()
-                // Set the request ID of the geofence. This is a string to identify this
-                // geofence.
-                .setRequestId("1")
-                        //Daniels home 32.142552, 34.793374
-                        //AIS school 32.265064, 34.877173
-                .setCircularRegion(
-                        32.265064,
-                        34.877173,
-                        50
-                )
-                .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                .setLoiteringDelay(500)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-                .build());
+        //Daniels home 32.142552, 34.793374
+        //AIS school 32.265064, 34.877173
+
 
 
         List<LocationInfo> locationList = mCurrentGame.getAllGameLocationsInfo();
@@ -368,15 +362,15 @@ public class MapDisplay extends FragmentActivity implements
                         .setRequestId("endpoint")
                                 //Daniels home 32.142552, 34.793374
                                 //AIS school 32.265064, 34.877173
-                                .setCircularRegion(
-                                        mCurrentGame.getEndPoint().getLocationInfo().getLat(),
-                                        mCurrentGame.getEndPoint().getLocationInfo().getLon(),
-                                        250
-                                )
-                                .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                                .setLoiteringDelay(500)
-                                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-                                .build());
+                        .setCircularRegion(
+                                mCurrentGame.getEndPoint().getLocationInfo().getLat(),
+                                mCurrentGame.getEndPoint().getLocationInfo().getLon(),
+                                250
+                        )
+                        .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                        .setLoiteringDelay(500)
+                        .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                        .build());
 
     }
 
@@ -414,7 +408,7 @@ public class MapDisplay extends FragmentActivity implements
             return mGeofencePendingIntent;
         }
         Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
-        intent.putExtra("GameName",mCurrentGame.getGameName());
+        intent.putExtra("GameName", mCurrentGame.getGameName());
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
         // addGeofences() and removeGeofences().
         return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -454,9 +448,15 @@ public class MapDisplay extends FragmentActivity implements
                 String answerText = answerTxtView.getText().toString().trim();
                 if (answerText.equalsIgnoreCase(quizInfo.getAnswer())) {
                     Log.i(TAG, "Right answer");
-                    //Toast.makeText(getCallingActivity(), "YOU WIN", Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), "You got it right!", Toast.LENGTH_LONG).show();
+                    try {
+                        ScoresUtils.addScoreToUser(quizInfo.getScore());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     Log.i(TAG, "wrong answer");
+                    Toast.makeText(v.getContext(), "Wrong answer!\nTry Again", Toast.LENGTH_LONG).show();
                     //Toast.makeText(getCallingActivity(), R.string.wrong_answer, Toast.LENGTH_LONG).show();
                 }
                 popupWindow.dismiss();
@@ -469,4 +469,19 @@ public class MapDisplay extends FragmentActivity implements
 
         });
     }
+
+    //endregion
+    //region buttons
+    public void displayChests(View view) {
+        //Display all the players current chests
+
+        //currently displays all the chests in the game
+        List<LocationInfo> allGameLocationsInfo = mCurrentGame.getAllGameLocationsInfo();
+
+
+        ChestViewDialog dialog = ChestViewDialog.newInstance(mCurrentGame.getGameName());
+        dialog.show(this.getFragmentManager(), "ChestDialogFragment");
+    }
+    //endregion
+
 }
