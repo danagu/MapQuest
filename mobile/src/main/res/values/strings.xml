@@ -69,4 +69,5 @@
     <string name="signup">Sign up</string>
 
     <string name="title_activity_question_answer_popup">QuestionAnswerPopup</string>
+    <string name="TestCount">TestCount</string>
 </resources>

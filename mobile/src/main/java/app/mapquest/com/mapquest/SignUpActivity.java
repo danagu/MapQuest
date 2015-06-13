@@ -103,6 +103,9 @@ public class SignUpActivity extends Activity {
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
+        // Adding count 0
+        user.put("COUNT", 0);
+        user.saveInBackground();
 
         // Call the Parse signup method
         user.signUpInBackground(new SignUpCallback() {

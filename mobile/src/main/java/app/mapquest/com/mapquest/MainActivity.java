@@ -1,31 +1,27 @@
 package app.mapquest.com.mapquest;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.ViewGroup.LayoutParams;
+
 import com.parse.ParseException;
 
 import app.mapquest.com.mapquest.api.Getting;
+import app.mapquest.com.mapquest.api.ScoresUtils;
 import app.mapquest.com.mapquest.data.Game;
 
 
@@ -98,8 +94,9 @@ public class MainActivity extends Activity {
         Toast.makeText(MainActivity.this, "Got game: " + game.toString(), Toast.LENGTH_LONG).show();
     }
 
-    public void getByIdTest(View view) throws ParseException {
-        Toast.makeText(MainActivity.this, "Got location: " + Getting.getLocationInfoByID("Lx5ruREoOn").toString(), Toast.LENGTH_LONG).show();
+    public void testCountWhyNotInParseUI(View view) throws ParseException {
+        ScoresUtils.addScoreToUser(50);
+        Toast.makeText(MainActivity.this, "Got score: " + ScoresUtils.getCurrentUsersScore(), Toast.LENGTH_LONG).show();
     }
 
     
