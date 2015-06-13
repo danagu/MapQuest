@@ -105,13 +105,10 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 Log.e(TAG,"Too many fences hit");
             }
 
-            handleHitLocation(gameName,triggeringGeofences.get(0).getRequestId());
+            handleHitLocation(gameName, triggeringGeofences.get(0).getRequestId());
 
 
 
-            // Send notification and log the transition details.
-            //sendNotification(geofenceTransitionDetails);
-            //Log.i(TAG, geofenceTransitionDetails);
         } else {
             // Log the error.
             Log.e(TAG, getString(R.string.geofence_transition_invalid_type, geofenceTransition));
@@ -126,26 +123,36 @@ public class GeofenceTransitionsIntentService extends IntentService {
      */
     private void handleHitLocation(String gameName,String locationID) {
         String currentQuestion;
+        LocationInfo locInfo = null;
+        boolean endPoint = false;
+        try {
+            locInfo = Getting.getLocationInfoByID(locationID);
 
-//        try {
-//            LocationInfo currentLocationInfo = Getting.getGameLocationInfoByID(locationID);
-//            currentQuestion = currentLocationInfo.getQuiz();
-//        } catch (ParseException e) {
-//            throw new IllegalArgumentException("Missing game wtf");
-//        }
-        sendNotification(gameName,"BLAHBLAHBLAH");
+        } catch (ParseException e) {
+            //It's the endpoint
+            try {
+                locInfo = Getting.getGamesEndPointLocationInfo(gameName);
+                endPoint = true;
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+        }
+        sendNotification(gameName,locationID,locInfo.getQuiz(),endPoint);
     }
 
 
 
     /**
      * Posts a notification in the notification bar when a transition is detected.
-     * If the user clicks the notification, control goes to the MainActivity.
+     * If the user clicks the notification, control goes to the MapDisplay and a Q&A fragment should show up
      */
-    private void sendNotification(String gameName,String notificationDetails) {
+    private void sendNotification(String gameName,String locationID,String quizInfo,boolean endPoint) {
         // Create an explicit content Intent that starts the main Activity.
         Intent notificationIntent = new Intent(getApplicationContext(), MapDisplay.class);
-        notificationIntent.putExtra("GAME",gameName);
+        notificationIntent.putExtra(MapDisplay.GAME_ARG,gameName);
+        notificationIntent.putExtra(MapDisplay.LOC_ARG,locationID);
+        notificationIntent.putExtra(MapDisplay.END_ARG,endPoint);
+
         // Construct a task stack.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
@@ -159,8 +166,8 @@ public class GeofenceTransitionsIntentService extends IntentService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder
                 .setContentTitle("You chased it")
-                .setContentText(notificationDetails)
-                .setSmallIcon(R.drawable.chest_icon) // addAction
+                .setContentText(quizInfo)
+                .setSmallIcon(R.drawable.chest_icon)
                 .setContentIntent(notificationPendingIntent)
                 ;
         // Dismiss notification once the user touches it.

@@ -1,5 +1,88 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:id="@+id/map"
-    tools:context="app.mapquest.com.mapquest.MapDisplay"
-    android:name="com.google.android.gms.maps.SupportMapFragment" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/mainLayout"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#00ffffff"
+        android:alpha="1">
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="70dp"
+            android:id="@+id/myChases"
+            android:background="@drawable/mychases_icon"
+            android:layout_marginTop="2dp" />
+        <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:id="@+id/numOfChases"
+                android:background="@drawable/points_bg"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp" />
+
+        <TextView
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:id="@+id/textView2"
+                android:background="@drawable/points_bg"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp" />
+
+        <Button
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/ic_leader_board"
+                android:background="@drawable/leaderboard_icon"
+                android:layout_alignParentRight="true"
+            android:layout_marginRight="2dp" />
+    </RelativeLayout>
+
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:id="@+id/mapDisplay"
+        tools:context="app.mapquest.com.mapquest.MapDisplay"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:layout_marginTop="-75dp"
+        android:background="@drawable/timer"
+        android:orientation="horizontal"
+        android:alpha="0.5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timerTextView"
+
+            android:gravity="center"
+            android:text="Chase ends in:"
+            android:textColor="#fffffef6"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="55dp"
+            android:textSize="25dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timerTimeView"
+
+            android:gravity="center"
+            android:text="01:30:24"
+            android:textColor="#fffffef6"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="30dp" />
+    </LinearLayout>
+
+</LinearLayout>
