@@ -160,10 +160,10 @@ public class MapDisplay extends FragmentActivity implements
     protected void onPause() {
         super.onPause();
         if (mGoogleAPIClientConnected) {
-            stopLocationUpdates();
-            removeGeofences();
+            //stopLocationUpdates();
+            //removeGeofences();
         }
-        mGoogleApiClient.disconnect();
+        //mGoogleApiClient.disconnect();
     }
 
     @Override
@@ -267,7 +267,7 @@ public class MapDisplay extends FragmentActivity implements
 
     public void setUpMap(GoogleMap map) {
         mMap = map;
-        mMap.setPadding(20, 20, 200, 0);
+        mMap.setPadding(40, 40, 200, 200);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
@@ -450,7 +450,8 @@ public class MapDisplay extends FragmentActivity implements
             public void onClick(View v) {
                 TextView answerTxtView = (EditText) popupView.findViewById(R.id.answerTxtView);
                 String answerText = answerTxtView.getText().toString().trim();
-                if (answerText.equalsIgnoreCase(quizInfo.getAnswer())) {
+                boolean rightAnswer = answerText.equalsIgnoreCase(quizInfo.getAnswer());
+                if (rightAnswer) {
                     Log.i(TAG, "Right answer");
                     Toast.makeText(v.getContext(), "You got it right!", Toast.LENGTH_LONG).show();
                     try {
@@ -463,7 +464,7 @@ public class MapDisplay extends FragmentActivity implements
                     Toast.makeText(v.getContext(), "Wrong answer!\nTry Again", Toast.LENGTH_LONG).show();
                 }
                 popupWindow.dismiss();
-                if (endPoint) {
+                if (endPoint && rightAnswer) {
                     //if we got this right then it's time for endpoint
                     displayEndPoint();
                 }

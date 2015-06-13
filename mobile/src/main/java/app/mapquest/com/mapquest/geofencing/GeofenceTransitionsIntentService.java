@@ -104,7 +104,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
             if (triggeringGeofences.size() != 1) {
                 Log.e(TAG,"Too many fences hit");
             }
-
+            Log.i(TAG, "hit long:"+String.valueOf(geofencingEvent.getTriggeringLocation().getLongitude())+" hit lat:"+String.valueOf(geofencingEvent.getTriggeringLocation().getLatitude()));
             handleHitLocation(gameName, triggeringGeofences.get(0).getRequestId());
 
 
