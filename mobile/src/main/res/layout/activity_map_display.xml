@@ -90,7 +90,8 @@
             android:textColor="#fffffef6"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            android:textStyle="bold|italic" />
     </LinearLayout>
 
 </LinearLayout>
