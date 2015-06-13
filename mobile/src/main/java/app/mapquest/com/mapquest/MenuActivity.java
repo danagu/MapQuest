@@ -8,6 +8,7 @@ import android.view.View;
 import com.parse.ParseException;
 
 import app.mapquest.com.mapquest.api.RandomGetter;
+import app.mapquest.com.mapquest.data.Game;
 import app.mapquest.com.mapquest.data.GameTypes;
 
 /**
@@ -31,8 +32,9 @@ public class MenuActivity extends Activity {
             @Override public void onClick(View view) {
                 Intent intent;
                 try {
-                    RandomGetter.getRandomGameByType(GameTypes.randomLetter());
-                    intent = new Intent(MenuActivity.this, SearchActivity.class);
+                    Game randomGame = RandomGetter.getRandomGameByType(GameTypes.randomLetter());
+                    intent = new Intent(MenuActivity.this, MapDisplay.class);
+                    intent.putExtra("GAME", randomGame.getGameName());
                     startActivity(intent);
                 } catch (ParseException e) {
                     e.printStackTrace();

@@ -31,6 +31,7 @@ public class RandomGetter {
         query.whereEqualTo(Game.GAME_NAME_KEY, "BykeGame");
 
         Game resultGame = query.getFirst();
+        resultGame.pinInBackground();
         return resultGame;
     }
 
@@ -39,6 +40,7 @@ public class RandomGetter {
         query.whereEqualTo(Game.GAME_NAME_KEY, "CarGame");
 
         Game resultGame = query.getFirst();
+        resultGame.pinInBackground();
         return resultGame;
     }
 
@@ -47,6 +49,7 @@ public class RandomGetter {
         query.whereEqualTo(Game.GAME_NAME_KEY, "FeetGame");
 
         Game resultGame = query.getFirst();
+        resultGame.pinInBackground();
         return resultGame;
     }
 }
