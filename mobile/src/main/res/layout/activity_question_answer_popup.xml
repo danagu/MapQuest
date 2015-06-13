@@ -81,7 +81,8 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:ems="10"
-                android:id="@+id/answerTxtView" />
+                android:id="@+id/answerTxtView"
+                android:textColor="@android:color/black" />
 
             <Button
                 android:layout_width="wrap_content"
