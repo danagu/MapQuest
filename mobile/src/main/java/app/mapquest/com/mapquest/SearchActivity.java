@@ -80,7 +80,7 @@ public class SearchActivity extends Activity {
         return new View.OnClickListener() {
             @Override public void onClick(View view) {
                 Intent intent;
-                intent = new Intent(SearchActivity.this,MainActivity.class);
+                intent = new Intent(SearchActivity.this,MapDisplay.class);
                 String finalSearchTerm = textView.getText().toString();
                 String gameID = Getting.getGameId(finalSearchTerm);
                 if (gameID.equals("-1")) {
@@ -89,7 +89,7 @@ public class SearchActivity extends Activity {
                             Toast.LENGTH_LONG).show();
                     return;
                 }
-                intent.putExtra("gameID",gameID);
+                intent.putExtra(MapDisplay.GAME_ARG,gameID);
                 startActivity(intent);
 
             }
