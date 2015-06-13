@@ -40,16 +40,6 @@ public class SearchActivity extends ActionBarActivity {
         textView = (AutoCompleteTextView) findViewById(R.id.searchGame);
 
 
-        textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                in.hideSoftInputFromWindow(arg1.getWindowToken(), 0);
-
-            }
-
-        });
 
         // Get the string array
         String[] gamesAutoComplete = getAllGamesForAutoComplete();
