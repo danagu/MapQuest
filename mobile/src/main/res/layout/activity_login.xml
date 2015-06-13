@@ -51,7 +51,6 @@
                     android:paddingLeft="10dp"
                     android:background="#ffffffff"
                     android:ems="10"
-
                     android:layout_marginTop="20dp" />
 
                 <EditText
