@@ -38,6 +38,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseException;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +81,7 @@ public class MapDisplay extends FragmentActivity implements
 
     //Parse object
     Game mCurrentGame;
+    List<LocationInfo> mGameLocations;
     int mCurrentScore;
     LocationInfo mLocationInfo = null;
     boolean mEndGame = false;
@@ -94,6 +97,7 @@ public class MapDisplay extends FragmentActivity implements
         try {
             String GameName = this.getIntent().getExtras().getString(GAME_ARG);
             mCurrentGame = Getting.getGame(GameName);
+            mGameLocations = mCurrentGame.getAllGameLocationsInfo();
             mCurrentScore = ScoresUtils.getCurrentUsersScore();
         } catch (ParseException e) {
              e.printStackTrace();
@@ -123,11 +127,13 @@ public class MapDisplay extends FragmentActivity implements
 
         super.onStart();
         updateScoreView();
+        updateChestCountView();
         Log.i(TAG, "Connecting to Google API client");
         mGoogleApiClient.connect();
         setUpMapIfNeeded();
 
         if (mEndGame) {
+            displayEndPoint();
         } else if (null != mLocationInfo) {
             displayQuestion(mLocationInfo);
         }
@@ -137,6 +143,11 @@ public class MapDisplay extends FragmentActivity implements
     private void updateScoreView() {
         TextView scoreTxtView = (TextView) findViewById(R.id.scoreTxtView);
         scoreTxtView.setText(String.valueOf(mCurrentScore));
+    }
+
+    private void updateChestCountView() {
+        TextView TxtView = (TextView) findViewById(R.id.numOfChases);
+        TxtView.setText(String.valueOf(mGameLocations.size()));
     }
 
     @Override
@@ -261,27 +272,31 @@ public class MapDisplay extends FragmentActivity implements
 
     public void setUpMap(GoogleMap map) {
         mMap = map;
-        mMap.setMyLocationEnabled(true);
+        mMap.setPadding(20, 20, 200, 0);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
 
 
 
         Log.i(TAG, "Adding game markers");
         //Iterate over all locations
-        List<LocationInfo> locationList = mCurrentGame.getAllGameLocationsInfo();
+        List<LocationInfo> locationList = mGameLocations;
         for( LocationInfo l:locationList)
         {
             //add each marker
             map.addMarker(new MarkerOptions()
                     .position((new LatLng(l.getLat(), l.getLon())))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.mapchest_icon))
-                    .title("Map point"));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.mapchest_icon_small))
+                    .title(l.getDescription()));
         }
 
         //Add end location
         map.addMarker(new MarkerOptions()
                 .position((new LatLng(mCurrentGame.getEndPoint().getLocationInfo().getLat(),
                         mCurrentGame.getEndPoint().getLocationInfo().getLon())))
-                .title("End point"));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mapfinish_icon))
+                .title(mCurrentGame.getEndPoint().getLocationInfo().getDescription()));
 
     }
     //endregion
@@ -340,7 +355,7 @@ public class MapDisplay extends FragmentActivity implements
                     .setCircularRegion(
                             l.getLat(),
                             l.getLon(),
-                            250
+                            20
                     )
                     .setExpirationDuration(Geofence.NEVER_EXPIRE)
                     .setLoiteringDelay(500)
@@ -411,7 +426,7 @@ public class MapDisplay extends FragmentActivity implements
     }
     //endregion
 
-    //region Q&Afragment
+    //region popupnotifications
     public void displayQuestion(final LocationInfo quizInfo) {
         LayoutInflater layoutInflater
                 = (LayoutInflater)getBaseContext()
@@ -429,7 +444,7 @@ public class MapDisplay extends FragmentActivity implements
 
 
         TextView chestDescription = (TextView)popupView.findViewById(R.id.chest_description_lbl);
-        chestDescription.setText("chest Description");
+        chestDescription.setText(quizInfo.getDescription());
         TextView questionDescription = (TextView)popupView.findViewById(R.id.quizTextLbl);
         questionDescription.setText(quizInfo.getQuiz());
 
@@ -472,13 +487,42 @@ public class MapDisplay extends FragmentActivity implements
         });
     }
 
+    public void displayEndPoint() {
+        LayoutInflater layoutInflater
+                = (LayoutInflater)getBaseContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View popupView = layoutInflater.inflate(R.layout.activity_endpoint_popup, null);
+        final PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        TextView pointTxtView = (TextView)popupView.findViewById(R.id.pointCountLbl);
+        pointTxtView.setText(String.valueOf(ScoresUtils.getCurrentUsersScore()));
+        TextView chstTxtView = (TextView)popupView.findViewById(R.id.chestCountLbl);
+        chstTxtView.setText(String.valueOf(7));
+
+
+
+        findViewById(R.id.mapDisplay).post(new Runnable() {
+            public void run() {
+                popupWindow.showAtLocation(findViewById(R.id.mapDisplay), Gravity.CENTER, 0, 0);
+            }
+
+        });
+    }
+
     //endregion
     //region buttons
     public void displayChests(View view) {
         //Display all the players current chests
 
         //currently displays all the chests in the game
-        List<LocationInfo> allGameLocationsInfo = mCurrentGame.getAllGameLocationsInfo();
 
 
         ChestViewDialog dialog = ChestViewDialog.newInstance(mCurrentGame.getGameName());
