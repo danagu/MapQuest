@@ -79,6 +79,10 @@ public class LocationInfo extends ParseObject {
         return getString(QUIZ_KEY);
     }
 
+    public int getScore() {
+        return getInt(SCORE_KEY);
+    }
+
     @Override
     public String toString() {
         String strRepresentation = "End point: \n";

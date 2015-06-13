@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:weightSum="1"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+
+    <AutoCompleteTextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchGame"
+        android:padding="10dp"
+        android:gravity="center_horizontal"
+        android:hint="Enter a shop name"
+        android:textColorHint="#bbbbbb"
+        android:layout_marginTop="375dp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Go"
+        android:id="@+id/searchPageGoBtn"
+        android:layout_below="@+id/searchGame"
+        android:layout_centerHorizontal="true"
+        android:background="#ff64ffa6"
+        android:layout_marginTop="10dp" />
+
+</RelativeLayout>

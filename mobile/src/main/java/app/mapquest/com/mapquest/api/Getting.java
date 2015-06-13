@@ -1,11 +1,14 @@
 package app.mapquest.com.mapquest.api;
 
+import android.util.Log;
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import app.mapquest.com.mapquest.data.EndPoint;
@@ -143,6 +146,32 @@ public class Getting {
             strRepresentations += user.getUsername() + "\n";
         }
         return strRepresentations;
+    }
+
+    public static List<Game> getAllGames() throws ParseException {
+        final LinkedList<Game> allGames = new LinkedList<Game>();
+        ParseQuery<Game> query = ParseQuery.getQuery(Game.class);
+        query.findInBackground(new FindCallback<Game>() {
+            public void done(List<Game> gamesReturned, ParseException e) {
+                if (e == null) {
+                    ParseObject.pinAllInBackground(gamesReturned);
+                    allGames.addAll(gamesReturned);
+                } else {
+                    // Something went wrong.
+                    Log.e("GAMES", "### GOT ERROR!!!! #### ");
+                }
+            }
+        });
+        return allGames;
+    }
+
+    public static String getGameId(String gameName) {
+        try {
+            Game game = getGame(gameName);
+            return game.getObjectId();
+        } catch (ParseException e) {
+            return "-1";
+        }
     }
 }
 
