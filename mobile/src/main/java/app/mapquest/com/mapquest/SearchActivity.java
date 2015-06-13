@@ -31,7 +31,7 @@ public class SearchActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.search_page);
+        setContentView(R.layout.activity_search);
 
         findViewById(R.id.searchPageGoBtn).setOnClickListener(createGoButtonListener());
         // Get a reference to the AutoCompleteTextView in the layout
@@ -54,7 +54,6 @@ public class SearchActivity extends Activity {
             allGames = Getting.getAllGames();
         } catch (ParseException e) {
             e.printStackTrace();
-            Log.e("SEARCH_ACTIVITY", e.getMessage());
         }
         Set<String> gamesNames = new HashSet<>();
         for(Game game: allGames) {
@@ -64,8 +63,8 @@ public class SearchActivity extends Activity {
         Iterator<String> itr = gamesNames.iterator();
         int i = 0;
         while (itr.hasNext()) {
-            String nextShop = itr.next();
-            finalGamesNames[i] = nextShop;
+            String nextGame = itr.next();
+            finalGamesNames[i] = nextGame;
             i++;
         }
         return finalGamesNames;
