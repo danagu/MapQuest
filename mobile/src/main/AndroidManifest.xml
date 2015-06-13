@@ -77,8 +77,8 @@
 
         <activity
             android:name=".MapDisplay"
-            android:label="@string/title_activity_map_display">
-            android:windowSoftInputMode="adjustResize"
+            android:label="@string/title_activity_map_display"
+            android:windowSoftInputMode="adjustResize">
         </activity>
 
         <!-- Push notifications -->
