@@ -137,6 +137,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 e1.printStackTrace();
             }
         }
+        Log.i(TAG,"Sending notification");
         sendNotification(gameName,locInfo.getObjectId(),locInfo.getQuiz(),endPoint);
     }
 

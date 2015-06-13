@@ -267,10 +267,10 @@ public class MapDisplay extends FragmentActivity implements
 
     public void setUpMap(GoogleMap map) {
         mMap = map;
-        mMap.setPadding(40, 40, 200, 200);
+        mMap.setPadding(50, 160, 40, 150);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
+        mMap.setMyLocationEnabled(true);
 
 
 
@@ -337,7 +337,6 @@ public class MapDisplay extends FragmentActivity implements
 
 
         List<LocationInfo> locationList = mCurrentGame.getAllGameLocationsInfo();
-        int counter = 1;
         for( LocationInfo l:locationList)
         {
             //add each marker
@@ -350,13 +349,12 @@ public class MapDisplay extends FragmentActivity implements
                     .setCircularRegion(
                             l.getLat(),
                             l.getLon(),
-                            20
+                            80
                     )
                     .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                    .setLoiteringDelay(500)
+                    .setLoiteringDelay(200)
                     .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
                     .build());
-            counter++;
         }
 
         //Add end location
@@ -373,7 +371,7 @@ public class MapDisplay extends FragmentActivity implements
                                 250
                         )
                         .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                        .setLoiteringDelay(500)
+                        .setLoiteringDelay(200)
                         .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
                         .build());
 
@@ -386,7 +384,7 @@ public class MapDisplay extends FragmentActivity implements
                 getGeofencingRequest(),
                 getGeofencePendingIntent()
         ).setResultCallback(this);
-
+        Log.i(TAG,"LoadedGeofences");
     }
 
     private GeofencingRequest getGeofencingRequest() {
