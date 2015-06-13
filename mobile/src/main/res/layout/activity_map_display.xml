@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:layout_width="80dp"
+                android:layout_width="85dp"
                 android:layout_height="75dp"
                 android:id="@+id/myChases"
                 android:background="@drawable/mychases_icon"
