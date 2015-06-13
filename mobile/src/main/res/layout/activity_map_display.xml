@@ -16,11 +16,10 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:layout_width="80dp"
+                android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:id="@+id/myChases"
                 android:background="@drawable/mychases_icon"
-                android:layout_marginTop="2dp"
                 android:onClick="displayChests"/>
             <TextView
                 android:layout_width="120dp"
@@ -28,9 +27,10 @@
                 android:id="@+id/numOfChases"
                 android:background="@drawable/points_bg"
                 android:layout_marginLeft="45dp"
+                android:layout_marginTop="10dp"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="28dp"
-                android:text="6"
+                android:text="17"
                 android:textSize="20dp"
                 android:gravity="center"
                 android:textColor="#e85344"/>
