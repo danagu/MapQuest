@@ -81,7 +81,7 @@ public class SearchActivity extends Activity {
             @Override public void onClick(View view) {
                 Intent intent;
                 intent = new Intent(SearchActivity.this,MapDisplay.class);
-                String finalSearchTerm = textView.getText().toString();
+                String finalSearchTerm = textView.getText().toString().trim();
                 String gameID = Getting.getGameId(finalSearchTerm);
                 if (gameID.equals("-1")) {
                     //invalid gameID, show toast and do not move on.
@@ -89,7 +89,7 @@ public class SearchActivity extends Activity {
                             Toast.LENGTH_LONG).show();
                     return;
                 }
-                intent.putExtra(MapDisplay.GAME_ARG,gameID);
+                intent.putExtra(MapDisplay.GAME_ARG,finalSearchTerm);
                 startActivity(intent);
 
             }
