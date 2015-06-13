@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MapQuest</string>
+    <string name="app_name">Mapcha</string>
     <string name="hello_world">Hello world!</string>
     <string name="SearchScreenGoButton">Go to game</string>
     <string name="action_settings">Settings</string>
@@ -70,4 +70,6 @@
 
     <string name="title_activity_question_answer_popup">QuestionAnswerPopup</string>
     <string name="TestCount">TestCount</string>
+    <string name="total_chests">Total Chests : </string>
+    <string name="my_chases">My Chases</string>
 </resources>
