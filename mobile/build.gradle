@@ -6,7 +6,7 @@ android {
         testKeystore {
             keyAlias 'dgdmapquest'
             keyPassword 'danielgaldaniela'
-            storeFile file('/Users/daniellag/Desktop/my-release-key.keystore')
+            storeFile file('keystore/my-release-key.keystore')
             storePassword 'danielgaldaniela'
         }
     }
