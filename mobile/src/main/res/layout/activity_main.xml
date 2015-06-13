@@ -42,7 +42,7 @@
         android:id="@+id/fragmentTest"
         android:text="Fragment Test"
         android:onClick="testFragment"
-        android:layout_below="@+id/button3"
+        android:layout_below="@+id/searchGamesButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp" />
 
