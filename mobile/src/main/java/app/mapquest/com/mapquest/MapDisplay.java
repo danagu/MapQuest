@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.drawable.BitmapDrawable;
@@ -126,8 +127,7 @@ public class MapDisplay extends FragmentActivity implements
     {
 
         super.onStart();
-        TextView scoreTxtView = (TextView) findViewById(R.id.scoreTxtView);
-        scoreTxtView.setText(String.valueOf(mCurrentScore));
+        updateScoreView();
         Log.i(TAG, "Connecting to Google API client");
         mGoogleApiClient.connect();
         setUpMapIfNeeded();
@@ -137,6 +137,11 @@ public class MapDisplay extends FragmentActivity implements
             displayQuestion(mLocationInfo);
         }
 
+    }
+
+    private void updateScoreView() {
+        TextView scoreTxtView = (TextView) findViewById(R.id.scoreTxtView);
+        scoreTxtView.setText(String.valueOf(mCurrentScore));
     }
 
     @Override
@@ -387,7 +392,7 @@ public class MapDisplay extends FragmentActivity implements
     private GeofencingRequest getGeofencingRequest() {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
 
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER      );
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
         builder.addGeofences(mGeofenceList);
         return builder.build();
     }
@@ -460,6 +465,14 @@ public class MapDisplay extends FragmentActivity implements
                     //Toast.makeText(getCallingActivity(), R.string.wrong_answer, Toast.LENGTH_LONG).show();
                 }
                 popupWindow.dismiss();
+            }
+        });
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mCurrentScore = ScoresUtils.getCurrentUsersScore();
+                updateScoreView();
             }
         });
         findViewById(R.id.mapDisplay).post(new Runnable() {
