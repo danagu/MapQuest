@@ -54,7 +54,6 @@ public class SearchActivity extends Activity {
             allGames = Getting.getAllGames();
         } catch (ParseException e) {
             e.printStackTrace();
-            Log.e("SEARCH_ACTIVITY", e.getMessage());
         }
         Set<String> gamesNames = new HashSet<>();
         for(Game game: allGames) {
@@ -64,8 +63,8 @@ public class SearchActivity extends Activity {
         Iterator<String> itr = gamesNames.iterator();
         int i = 0;
         while (itr.hasNext()) {
-            String nextShop = itr.next();
-            finalGamesNames[i] = nextShop;
+            String nextGame = itr.next();
+            finalGamesNames[i] = nextGame;
             i++;
         }
         return finalGamesNames;
