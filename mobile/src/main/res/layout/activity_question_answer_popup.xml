@@ -1,23 +1,23 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="wrap_content"
-    android:layout_height="wrap_content" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@drawable/chest_win">
-
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
-        android:layout_width="373dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="bottom"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
         >
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top">
+
+            android:layout_gravity="top"
+            android:background="@android:color/black">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,55 +43,61 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:background="#ffdd5a50">
 
             <TextView
                 android:id="@+id/quizTextLbl"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/quiz_text_lbl"
-                android:layout_weight="1"
                 android:text="@string/placeholder_lorem_ipsum"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:minLines="10"
+                android:layout_weight="2"/>
 
             <ImageView
-                android:layout_width="107dp"
-                android:layout_height="200dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:gravity="center"
                 android:contentDescription="@string/leader_icon"
-                android:src="@drawable/leaderboard_icon" />
+                android:src="@drawable/leaderboard_icon"
+                 />
 
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="373dp"
-            android:layout_height="205dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            >
+            android:background="#ffbe473c"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp">
 
 
             <EditText
                 android:layout_width="fill_parent"
-                android:layout_height="137dp"
+                android:layout_height="75dp"
                 android:inputType="textMultiLine"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/fill_answer_here"
+                android:hint="@string/fill_answer_here"
                 android:background="#ffffffff"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:ems="10"
-                android:id="@+id/answerTxtView" />
+                android:id="@+id/answerTxtView"
+                android:textColor="@android:color/black" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/send_string"
                 android:id="@+id/sendBtn"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom|center"
                 android:clickable="true"/>
         </LinearLayout>
 
 
     </LinearLayout>
-</RelativeLayout>

@@ -1,0 +1,139 @@
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="top"
+            android:background="@android:color/black">
+
+            <TextView
+                android:id="@+id/end_lbl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:contentDescription="End"
+                android:text="Woo-Hoo!"
+                android:textColor="#ffffffff"
+                android:layout_gravity="center"
+                android:layout_margin="7dp"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:background="#ffdd5a50">
+
+            <TextView
+                android:id="@+id/end_message_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="end_desc_label"
+                android:text="The chase has ended"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center"
+                android:textAlignment="gravity"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                android:autoText="false"
+                android:gravity="center" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="10dp"
+                android:background="#ffdd5a50">
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:gravity="center"
+                    android:contentDescription="@string/chest_icon"
+                    android:src="@drawable/chest_icon"
+                    />
+
+                <TextView
+                    android:id="@+id/chestCountLbl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/quiz_text_lbl"
+                    android:text="countplaceholder"
+                    android:textColor="@android:color/white"
+                    android:minLines="10"
+                    android:layout_weight="2"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                    android:gravity="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:background="#ffdd5a50">
+
+
+                    <ImageView
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:gravity="center"
+                        android:src="@drawable/leaderboard_icon"
+                        />
+
+                    <TextView
+                        android:id="@+id/pointCountLbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="pointCountPlaceholder"
+                        android:textColor="@android:color/white"
+                        android:minLines="10"
+                        android:layout_weight="2"
+                        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                        android:gravity="center" />
+
+
+                    </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#ffbe473c"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="Got it!"
+                android:id="@+id/sendBtn"
+                android:layout_gravity="bottom|center"
+                android:clickable="true"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
