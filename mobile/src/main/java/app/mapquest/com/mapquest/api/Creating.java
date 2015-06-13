@@ -24,16 +24,16 @@ public class Creating {
         return newGame;
     }
 
-    public static LocationInfo createNewLocationInfo(double lat, double lon, String quiz, String answer) throws ParseException {
+    public static LocationInfo createNewLocationInfo(double lat, double lon, String quiz, String answer, int score) throws ParseException {
         LocationInfo newLocation = new LocationInfo();
-        newLocation.setLocationInfo(lat, lon, quiz, answer, 0, "description1"); // TODO: This is default score!
+        newLocation.setLocationInfo(lat, lon, quiz, answer, score, "description1"); // TODO: This is default score!
         newLocation.pinInBackground();
         return newLocation;
 
     }
 
-    public static EndPoint createNewEndPoint(double lat, double lon, String quiz, String answer) throws ParseException {
-        LocationInfo newLocation = createNewLocationInfo(lat, lon, quiz, answer);
+    public static EndPoint createNewEndPoint(double lat, double lon, String quiz, String answer, int score) throws ParseException {
+        LocationInfo newLocation = createNewLocationInfo(lat, lon, quiz, answer, score);
 
         EndPoint endPoint = new EndPoint();
         endPoint.setEndPoint(newLocation);

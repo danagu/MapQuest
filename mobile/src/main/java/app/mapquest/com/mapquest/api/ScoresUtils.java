@@ -29,7 +29,6 @@ public class ScoresUtils {
     }
 
     public static int getCurrentUsersScore() {
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
         int currentScore = ParseUser.getCurrentUser().getInt("SCORE");
         return currentScore;
     }

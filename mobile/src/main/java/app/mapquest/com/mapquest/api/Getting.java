@@ -4,6 +4,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -125,6 +126,24 @@ public class Getting {
             LocationInfo locationInfo = locationInfoParseQuery.get(id);
             return locationInfo;
         }
+
+    public static List<ParseUser> getAllUsersOfGame(String gameName) throws ParseException {
+        // TODO: USE A QUERY?
+        Game game = getGame(gameName);
+        List<ParseUser> usersList = game.getAllUsersOfGame();
+        ParseObject.pinAllInBackground(usersList);
+        ParseObject.fetchAllIfNeeded(usersList); //!?
+        return usersList;
+    }
+
+    public static String getAllUsersOfGameString(String gameName) throws ParseException {
+        String strRepresentations = "";
+        List<ParseUser> usersInGame = getAllUsersOfGame(gameName);
+        for(ParseUser user: usersInGame) {
+            strRepresentations += user.getUsername() + "\n";
+        }
+        return strRepresentations;
+    }
 }
 
 

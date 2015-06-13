@@ -4,6 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Game extends ParseObject {
 
     public static final String GAME_NAME_KEY = "game_name";
     public static final String LOCATION_INFO_LIST_KEY = "points_list";
+    public static final String USERS_LIST_KEY = "users_list";
     public static final String END_POINT_KEY = "end_point";
 
     public void setGameName(String newName) {
@@ -68,10 +70,35 @@ public class Game extends ParseObject {
     public String toString() {
         String strRepresentation = "End point: \n";
         try {
-            strRepresentation += "Game: " + getGameName() + "\n" + "Locations In Game: " + Getting.getAllGamesLocationInfosString(getGameName()) + " End point: " + getEndPoint().toString();
+            strRepresentation += "Game: " + getGameName() + "\n" + "Locations In Game: " + Getting.getAllGamesLocationInfosString(getGameName()) + " End point: " + getEndPoint().toString()
+            + " Users: " + Getting.getAllUsersOfGameString(getGameName());
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return strRepresentation;
     }
+
+
+
+    // ###################### Users to game #################################
+    public void addUserToGame(ParseUser user) {
+        Object currentListObj = get(USERS_LIST_KEY);
+        List<ParseUser> currentUsersList;
+        if(currentListObj == null) {
+            currentUsersList = new LinkedList<ParseUser>();
+        } else {
+            currentUsersList = (List<ParseUser>) currentListObj;
+        }
+
+        currentUsersList.add(user);
+
+        put(USERS_LIST_KEY, currentUsersList);
+        pinAllInBackground(currentUsersList); //?
+        saveInBackground();
+    }
+
+    public List<ParseUser> getAllUsersOfGame() {
+        return (List<ParseUser>) get(USERS_LIST_KEY);
+    }
+
 }
