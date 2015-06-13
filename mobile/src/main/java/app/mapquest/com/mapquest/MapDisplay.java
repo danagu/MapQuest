@@ -1,11 +1,7 @@
 package app.mapquest.com.mapquest;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -23,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -43,7 +38,6 @@ import com.parse.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import app.mapquest.com.mapquest.api.Getting;
 import app.mapquest.com.mapquest.api.ScoresUtils;
@@ -188,7 +182,7 @@ public class MapDisplay extends FragmentActivity implements
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(
                     new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()),
-                    5);
+                    13);
             mMap.moveCamera(cu);
         }
 

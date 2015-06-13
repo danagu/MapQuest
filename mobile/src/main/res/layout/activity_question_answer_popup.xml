@@ -77,7 +77,6 @@
                 android:inputType="textMultiLine"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/fill_answer_here"
-                android:textColor="#android:black"
                 android:background="#ffffffff"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
