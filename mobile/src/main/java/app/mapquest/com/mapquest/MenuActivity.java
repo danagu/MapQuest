@@ -1,14 +1,20 @@
 package app.mapquest.com.mapquest;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+
+import com.parse.ParseException;
+
+import app.mapquest.com.mapquest.api.RandomGetter;
+import app.mapquest.com.mapquest.data.Game;
+import app.mapquest.com.mapquest.data.GameTypes;
 
 /**
  * Created by daniellag on 6/13/15.
  */
-public class MenuActivity extends Activity {
+public class MenuActivity extends ActionBarActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,9 +31,14 @@ public class MenuActivity extends Activity {
         return new View.OnClickListener() {
             @Override public void onClick(View view) {
                 Intent intent;
-                // TODO! RANDOM CHASE
-                intent = new Intent(MenuActivity.this, SearchActivity.class);
-                startActivity(intent);
+                try {
+                    Game randomGame = RandomGetter.getRandomGameByType(GameTypes.randomLetter());
+                    intent = new Intent(MenuActivity.this, MapDisplay.class);
+                    intent.putExtra("GAME", randomGame.getGameName());
+                    startActivity(intent);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         };
     }

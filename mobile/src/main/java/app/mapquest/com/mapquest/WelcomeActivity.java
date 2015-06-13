@@ -4,16 +4,16 @@ package app.mapquest.com.mapquest;
  * Created by daniellag on 6/13/15.
  */
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 
 /**
  * Activity which displays a registration screen to the user.
  */
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

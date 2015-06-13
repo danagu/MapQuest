@@ -1,15 +1,15 @@
 package app.mapquest.com.mapquest;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 import com.parse.ParseUser;
 
 /**
  * Created by daniellag on 6/13/15.
  */
-public class DispatchActivity extends Activity {
+public class DispatchActivity extends ActionBarActivity {
     /**
      * Activity which starts an intent for either the logged in (MainActivity) or logged out
      * (SignUpOrLoginActivity) activity.
