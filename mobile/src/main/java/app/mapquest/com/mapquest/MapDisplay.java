@@ -163,13 +163,7 @@ public class MapDisplay extends FragmentActivity implements
     @Override
     public void onResult(Status status) {
         if (status.isSuccess()) {
-
-
-            Toast.makeText(
-                    this,
-                    "Added or removed geofences",
-                    Toast.LENGTH_SHORT
-            ).show();
+            return;
         } else {
             // Get the status code for the error and log it using a user-friendly message.
             String errorMessage = GeofenceMessages.getErrorString(this,
