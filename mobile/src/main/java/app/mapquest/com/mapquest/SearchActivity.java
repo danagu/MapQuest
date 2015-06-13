@@ -31,7 +31,7 @@ public class SearchActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.search_page);
+        setContentView(R.layout.activity_search);
 
         findViewById(R.id.searchPageGoBtn).setOnClickListener(createGoButtonListener());
         // Get a reference to the AutoCompleteTextView in the layout
