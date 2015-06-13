@@ -35,10 +35,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chase Now"
+            android:text="Random Chase"
             android:id="@+id/randomChasesText"
             android:textSize="30dp"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="10dp"
             android:textColor="#ff000000"
             android:typeface="monospace"
             android:layout_gravity="center"
@@ -49,7 +49,7 @@
             android:id="@+id/randomChasesButton"
             android:layout_gravity="center"
             android:background="@drawable/random_icon"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginRight="15dp"
             />
 
@@ -69,7 +69,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search Games"
+            android:text="Search Chases"
             android:id="@+id/searchGamesText"
             android:textSize="30dp"
             android:typeface="monospace"
