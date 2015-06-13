@@ -107,16 +107,13 @@ public class MapDisplay extends FragmentActivity implements
         // 1. Q&A fragment
         // 2. End game fragment
         String locationID = this.getIntent().getExtras().getString(LOC_ARG);
-        if (locationID != null) try {
-            if (this.getIntent().getExtras().getBoolean(END_ARG)) {
-                mEndGame = true;
-            } else {
-                //Q&A
+        if (locationID != null) {
+            mEndGame = this.getIntent().getExtras().getBoolean(END_ARG,false);
+            try {
                 mLocationInfo = Getting.getLocationInfoByID(locationID);
-
+            } catch (ParseException e1) {
+                e1.printStackTrace();
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
         createGeoFences();
     }
@@ -132,10 +129,8 @@ public class MapDisplay extends FragmentActivity implements
         mGoogleApiClient.connect();
         setUpMapIfNeeded();
 
-        if (mEndGame) {
-            displayEndPoint();
-        } else if (null != mLocationInfo) {
-            displayQuestion(mLocationInfo);
+        if (null != mLocationInfo) {
+            displayQuestion(mLocationInfo, mEndGame);
         }
 
     }
@@ -427,7 +422,7 @@ public class MapDisplay extends FragmentActivity implements
     //endregion
 
     //region popupnotifications
-    public void displayQuestion(final LocationInfo quizInfo) {
+    public void displayQuestion(final LocationInfo quizInfo, final boolean endPoint) {
         LayoutInflater layoutInflater
                 = (LayoutInflater)getBaseContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -453,7 +448,6 @@ public class MapDisplay extends FragmentActivity implements
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 TextView answerTxtView = (EditText) popupView.findViewById(R.id.answerTxtView);
                 String answerText = answerTxtView.getText().toString().trim();
                 if (answerText.equalsIgnoreCase(quizInfo.getAnswer())) {
@@ -469,6 +463,10 @@ public class MapDisplay extends FragmentActivity implements
                     Toast.makeText(v.getContext(), "Wrong answer!\nTry Again", Toast.LENGTH_LONG).show();
                 }
                 popupWindow.dismiss();
+                if (endPoint) {
+                    //if we got this right then it's time for endpoint
+                    displayEndPoint();
+                }
             }
         });
 
@@ -477,6 +475,7 @@ public class MapDisplay extends FragmentActivity implements
             public void onDismiss() {
                 mCurrentScore = ScoresUtils.getCurrentUsersScore();
                 updateScoreView();
+
             }
         });
         findViewById(R.id.mapDisplay).post(new Runnable() {
@@ -500,12 +499,12 @@ public class MapDisplay extends FragmentActivity implements
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setFocusable(true);
-        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
 
         TextView pointTxtView = (TextView)popupView.findViewById(R.id.pointCountLbl);
         pointTxtView.setText(String.valueOf(ScoresUtils.getCurrentUsersScore()));
         TextView chstTxtView = (TextView)popupView.findViewById(R.id.chestCountLbl);
-        chstTxtView.setText(String.valueOf(7));
+        chstTxtView.setText(String.valueOf(mGameLocations.size()));
 
 
 
