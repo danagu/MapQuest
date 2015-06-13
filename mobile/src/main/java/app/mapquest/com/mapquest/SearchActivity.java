@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -21,6 +22,8 @@ import java.util.Set;
 
 import app.mapquest.com.mapquest.api.Getting;
 import app.mapquest.com.mapquest.data.Game;
+
+import static app.mapquest.com.mapquest.R.id.special_button_login;
 
 /**
  * Created by daniellag on 6/13/15.
@@ -35,7 +38,10 @@ public class SearchActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        findViewById(R.id.searchPageGoBtn).setOnClickListener(createGoButtonListener());
+        //special button click handler
+        FrameLayout specialButtonLogin = (FrameLayout) findViewById(R.id.special_button_search);
+        specialButtonLogin.setOnClickListener(createGoButtonListener());
+
         // Get a reference to the AutoCompleteTextView in the layout
         textView = (AutoCompleteTextView) findViewById(R.id.searchGame);
 

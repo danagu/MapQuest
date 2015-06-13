@@ -1,32 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="10dp"
-    android:weightSum="1"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@android:style/Theme.Holo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".WelcomeActivity" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="250dp"
+            android:orientation="vertical"
+            android:id="@+id/fake_layout">
+        </FrameLayout>
 
-    <AutoCompleteTextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchGame"
-        android:padding="10dp"
-        android:gravity="center_horizontal"
-        android:hint="Enter a chase name"
-        android:textColorHint="#bbbbbb"
-        android:layout_marginTop="375dp" />
+        <AutoCompleteTextView
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:id="@+id/searchGame"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:hint="@string/enter_a_chase_name_string"
+            android:textColorHint="#bbbbbb"/>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Chase'm!"
-        android:id="@+id/searchPageGoBtn"
-        android:layout_below="@+id/searchGame"
-        android:layout_centerHorizontal="true"
-        android:background="#ff64ffa6"
-        android:layout_marginTop="10dp" />
+        <FrameLayout
+            android:id="@+id/special_button_search"
+            android:layout_gravity="center_horizontal"
+            android:clickable="true"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/searchGame">
+
+            <FrameLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:background="@color/black"
+
+                android:layout_height="1dp"></FrameLayout>
+
+            <TextView
+                android:text="@string/log_in_resource"
+                android:textColor="@color/red"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:layout_width="200dp"
+                android:background="@color/grey"
+                android:layout_height="1dp"
+                android:layout_gravity="left|bottom"></FrameLayout>
+        </FrameLayout>
+    </LinearLayout>
+
 
 </RelativeLayout>
