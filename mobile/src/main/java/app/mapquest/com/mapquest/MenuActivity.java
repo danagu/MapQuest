@@ -5,6 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.parse.ParseException;
+
+import app.mapquest.com.mapquest.api.RandomGetter;
+import app.mapquest.com.mapquest.data.GameTypes;
+
 /**
  * Created by daniellag on 6/13/15.
  */
@@ -25,9 +30,13 @@ public class MenuActivity extends Activity {
         return new View.OnClickListener() {
             @Override public void onClick(View view) {
                 Intent intent;
-                // TODO! RANDOM CHASE
-                intent = new Intent(MenuActivity.this, SearchActivity.class);
-                startActivity(intent);
+                try {
+                    RandomGetter.getRandomGameByType(GameTypes.randomLetter());
+                    intent = new Intent(MenuActivity.this, SearchActivity.class);
+                    startActivity(intent);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         };
     }
