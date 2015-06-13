@@ -8,14 +8,34 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".WelcomeActivity" >
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="250dp"
+            android:src="@drawable/mapcha_logo_red_small"
+            android:layout_gravity="center_horizontal|top"
+
+            />
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+    </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/special_button"
+        android:id="@+id/special_button_login"
         android:layout_gravity="center_horizontal"
         android:clickable="true"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_above="@+id/frameLayout"
+        android:layout_above="@+id/special_button_logout"
         android:layout_centerHorizontal="true">
 
         <FrameLayout
@@ -39,14 +59,14 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/frameLayout"
+        android:id="@+id/special_button_logout"
         android:layout_gravity="center_horizontal"
         android:clickable="true"
         android:layout_width="200dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="84dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/special_button"
-        android:layout_marginBottom="83dp">
+        android:layout_alignStart="@+id/special_button_login">
 
         <TextView
             android:text="SIGN UP"

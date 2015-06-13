@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ public class LoginActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        hideSoftKeyboard();
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
@@ -105,5 +106,24 @@ public class LoginActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Hides the soft keyboard
+     */
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    /**
+     * Shows the soft keyboard
+     */
+    public void showSoftKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        view.requestFocus();
+        inputMethodManager.showSoftInput(view, 0);
     }
 }
