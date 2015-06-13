@@ -20,8 +20,12 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 
+import java.util.Set;
+import java.util.TreeMap;
+
 import app.mapquest.com.mapquest.api.Getting;
 import app.mapquest.com.mapquest.api.ScoresUtils;
+import app.mapquest.com.mapquest.api.Updating;
 import app.mapquest.com.mapquest.data.Game;
 
 
@@ -94,9 +98,17 @@ public class MainActivity extends Activity {
         Toast.makeText(MainActivity.this, "Got game: " + game.toString(), Toast.LENGTH_LONG).show();
     }
 
-    public void testCountWhyNotInParseUI(View view) throws ParseException {
+    public void testGetScoreBoardSorted(View view) throws ParseException {
+//        Toast.makeText(MainActivity.this, "Got score: " + ScoresUtils.getCurrentUsersScore(), Toast.LENGTH_LONG).show();
         ScoresUtils.addScoreToUser(50);
-        Toast.makeText(MainActivity.this, "Got score: " + ScoresUtils.getCurrentUsersScore(), Toast.LENGTH_LONG).show();
+//        Updating.addUserToGame("Game");
+        Updating.addAllUsersToGame("Game");
+
+        TreeMap<Integer, String> scores = ScoresUtils.getScoreBoardSorted("Game");
+        Set<Integer> scoresKeys = scores.keySet();
+        for(Integer key: scoresKeys) {
+            Toast.makeText(MainActivity.this, "score: " + key + " user: " + scores.get(key), Toast.LENGTH_LONG).show();
+        }
     }
 
     

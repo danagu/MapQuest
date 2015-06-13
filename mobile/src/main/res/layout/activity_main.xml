@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/button4"
         android:text="@string/TestCount"
-        android:onClick="testCountWhyNotInParseUI"
+        android:onClick="testGetScoreBoardSorted"
         android:layout_centerVertical="true"
         android:layout_alignStart="@+id/button4" />
 
