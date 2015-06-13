@@ -82,7 +82,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="75dp"
                 android:inputType="textMultiLine"
-                android:text="@string/fill_answer_here"
+                android:hint="@string/fill_answer_here"
                 android:background="#ffffffff"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
