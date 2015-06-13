@@ -20,11 +20,11 @@
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_height="250dp"
-                    android:src="@drawable/mapcha_logo_red"
+                    android:layout_height="100dp"
+                    android:src="@drawable/mapcha_logo_red_small"
                     android:layout_gravity="center|top"
 
-                    />
+                    android:layout_marginTop="20dp" />
                 </LinearLayout>
 
             <LinearLayout
@@ -35,7 +35,7 @@
                 android:background="#E3E3E3"
                 android:layout_width="fill_parent"
                 android:layout_height="230dp"
-                android:layout_marginTop="-30dp">
+                android:layout_marginTop="30dp">
 
 
                 <EditText
@@ -86,7 +86,7 @@
 
             <ImageView
                 android:layout_width="fill_parent"
-                android:layout_height="75dp"
+                android:layout_height="50dp"
                 android:gravity="center"
                 android:src="@drawable/chest_icon_red_shade"
                 android:layout_marginTop="20dp" />
