@@ -1,9 +1,9 @@
 package app.mapquest.com.mapquest;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,7 +29,7 @@ import app.mapquest.com.mapquest.api.Updating;
 import app.mapquest.com.mapquest.data.Game;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
 
     private static final String TAG = "MainActivity";

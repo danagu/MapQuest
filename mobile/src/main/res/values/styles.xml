@@ -4,30 +4,44 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppTheme.Base"/>
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/red</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/black</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/accent</item>
+
+        <!-- You can also set colorControlNormal, colorControlActivated
+             colorControlHighlight & colorSwitchThumbNormal. -->
     </style>
 
     <!-- Application theme. -->
     <!-- Base application theme. -->
-    <style name="AppTheme" parent= "Theme.AppCompat.Light.DarkActionBar">
+    <!-- style name="AppTheme" parent= "Theme.AppCompat.Light.DarkActionBar" -->
     <!-- Main theme colors -->
     <!--   your app branding color for the app bar -->
-    <item name="colorPrimary">#ff3573b5</item>
-    <!--   darker variant for the status bar and contextual app bars -->
-    <item name="colorPrimaryDark">#ff22729f</item>
-    <!--   theme UI controls like checkboxes and text fields -->
-    <item name="colorAccent">#FF4081</item>
-    </style>
+    <!--<item name="colorPrimary">@color/red</item>-->
+    <!--&lt;!&ndash;   darker variant for the status bar and contextual app bars &ndash;&gt;-->
+    <!--<item name="colorPrimaryDark">#ff22729f</item>-->
+    <!--&lt;!&ndash;   theme UI controls like checkboxes and text fields &ndash;&gt;-->
+    <!--<item name="colorAccent">#FF4081</item>-->
+    <!-- /style -->
 
     <style name="LoginFormContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">16dp</item>
     </style>
+
+
 
 </resources>

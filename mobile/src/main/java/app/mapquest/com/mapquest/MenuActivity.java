@@ -1,8 +1,8 @@
 package app.mapquest.com.mapquest;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 
 import com.parse.ParseException;
@@ -14,7 +14,7 @@ import app.mapquest.com.mapquest.data.GameTypes;
 /**
  * Created by daniellag on 6/13/15.
  */
-public class MenuActivity extends Activity {
+public class MenuActivity extends ActionBarActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

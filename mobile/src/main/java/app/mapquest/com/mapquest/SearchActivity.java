@@ -1,9 +1,8 @@
 package app.mapquest.com.mapquest;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -23,7 +22,7 @@ import app.mapquest.com.mapquest.data.Game;
 /**
  * Created by daniellag on 6/13/15.
  */
-public class SearchActivity extends Activity {
+public class SearchActivity extends ActionBarActivity {
 
     AutoCompleteTextView textView;
 //    SharedPreferences sharedPrefs;
