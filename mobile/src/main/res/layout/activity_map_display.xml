@@ -61,7 +61,7 @@
 
         </fragment>
 
-
+<!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="69dp"
@@ -95,5 +95,5 @@
             android:textSize="30dp"
             android:textStyle="bold|italic" />
     </LinearLayout>
-
+-->
 </LinearLayout>
