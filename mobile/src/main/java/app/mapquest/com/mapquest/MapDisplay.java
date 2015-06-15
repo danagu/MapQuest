@@ -267,10 +267,14 @@ public class MapDisplay extends FragmentActivity implements
 
     public void setUpMap(GoogleMap map) {
         mMap = map;
-        mMap.setPadding(25, 225, 15, 170);
+        mMap.setPadding(0, 225, 15, 0);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.setMyLocationEnabled(true);
+
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().
+
 
 
 
