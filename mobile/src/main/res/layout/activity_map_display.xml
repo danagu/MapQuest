@@ -18,8 +18,9 @@
             <Button
                 android:layout_width="75dp"
                 android:layout_height="75dp"
+                android:layout_marginTop="15dp"
                 android:id="@+id/myChases"
-                android:background="@drawable/mychases_icon"
+                android:background="@drawable/my_chases_icon"
                 />
             <TextView
                 android:layout_width="120dp"
@@ -27,7 +28,7 @@
                 android:id="@+id/numOfChases"
                 android:background="@drawable/points_bg"
                 android:layout_marginLeft="45dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="28dp"
                 android:text="17"
@@ -42,7 +43,7 @@
                 android:background="@drawable/points_bg"
                 android:layout_marginRight="45dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:text="350"
                 android:textSize="20dp"
                 android:gravity="center"
@@ -51,6 +52,7 @@
             <Button
                 android:layout_width="75dp"
                 android:layout_height="75dp"
+                android:layout_marginTop="15dp"
                 android:id="@+id/ic_leader_board"
                 android:background="@drawable/leaderboard_icon"
                 android:layout_alignParentRight="true"
